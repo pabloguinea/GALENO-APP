@@ -5,6 +5,7 @@ services:
     build: ./backend
     command: gunicorn api.wsgi:application --bind 0.0.0.0:8081 --timeout 90 --log-level warning
     container_name: galeno_app_backend
+    restart: on-failure
     volumes:
       - static_volume:/backend/static
       - ./backend:/backend
@@ -16,12 +17,11 @@ services:
       - ./backend/.env.prod
     depends_on:
       - db
-    #networks:
-    #  - nginx_network
   
   db:
     image: postgres:12.0-alpine
     container_name: galeno_app_db
+    restart: on-failure
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     expose:
@@ -34,8 +34,6 @@ services:
       - POSTGRES_DB=galeno_app
     env_file:
       - ./db/.env.prod
-    #networks:
-    #  - nginx_network
   
   frontend:
     build: ./frontend
@@ -45,7 +43,7 @@ services:
       - dist_volume:/frontend/dist
     depends_on:
       - backend
-    
+  
   certbot:
     image: certbot/certbot
     container_name: certbot
@@ -53,16 +51,17 @@ services:
     volumes:
       - ./nginx/ssl/data/certbot/conf:/etc/letsencrypt
       - ./nginx/ssl/data/certbot/www:/var/www/certbot
-    #entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 5d & wait $${!}; done;'"
-      
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 5d & wait $${!}; done;'"
+
   server:
-    build: ./nginx
+    build: ./nginx/ssl
     container_name: galeno_app_server
-    restart: always
+    restart: on-failure
     ports:
       - 80:80
+      - 443:443
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl/conf.d:/etc/nginx/conf.d
       - ./backend/logs:/app/logs
       - ./frontend/dist:/app/html
       - static_volume:/backend/static:ro
@@ -72,12 +71,6 @@ services:
     depends_on:
       - backend
       - frontend
-    #networks:
-    #  - nginx_network
-
-#networks:
-#  nginx_network:
-#    driver: bridge
 
 volumes:
   static_volume:

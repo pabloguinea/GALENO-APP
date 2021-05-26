@@ -79,8 +79,8 @@ WSGI_APPLICATION = 'api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get("SQL_ENGINE", default="django.db.backends.postgresql"),
-        'NAME': os.environ.get("SQL_DATABASE", default="medical_app"),
-        'USER': os.environ.get("SQL_USER", default="medical_app_dba"),
+        'NAME': os.environ.get("SQL_DATABASE", default="galeno_app"),
+        'USER': os.environ.get("SQL_USER", default="galeno_app_dba"),
         'PASSWORD': os.environ.get("SQL_PASSWORD", default="I0%QycAI@iRV"),
         'HOST': os.environ.get("SQL_HOST", default="db"),
         'PORT': int(os.environ.get("SQL_PORT", default=5432)),
