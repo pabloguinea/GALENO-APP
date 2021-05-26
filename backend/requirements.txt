@@ -1,0 +1,8 @@
+django
+gunicorn
+#configparser
+#psycopg2-binary
+asgiref
+djangorestframework
+pytz
+sqlparse

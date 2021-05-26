@@ -1,0 +1,32 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+Werkzeug = "*"
+Flask = "*"
+Flask-Cors = "*"
+Flask-Uploads = "*"
+Flask-Testing = "*"
+Flask-Script = "*"
+Flask-SQLAlchemy = "*"
+oauth2client = "*"
+psycopg2 = "*"
+numpy = "*"
+keras = "*"
+gunicorn = "*"
+Pillow = "*"
+requests = "*"
+h5py = "*"
+tensorflow = "==2.4.1"
+scikit-image = "*"
+tensorflow-addons = "*"
+Eve = "*"
+django = "*"
+psycopg2-binary = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"

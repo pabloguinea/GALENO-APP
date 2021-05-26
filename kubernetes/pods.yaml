@@ -1,0 +1,188 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dbservice
+spec:
+  selector:
+    matchLabels:
+      app: dbservice
+  template:
+    metadata:
+      labels:
+        app: dbservice
+    spec:
+      containers:
+        - name: db
+          image: pablo/app:db
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: flasksecret
+                  key: user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: flasksecret
+                  key: password
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: volume
+              mountPath: /var/lib/postgresql
+      volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: photovolume
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: flask
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flask
+  template:
+    metadata:
+      labels:
+        app: flask
+    spec:
+      containers:
+      - name: backend-service
+        image: pablo/app:flask
+        imagePullPolicy: Always
+        env:
+          - name: APP_SETTINGS
+            valueFrom:
+              secretKeyRef:
+                name: flasksecret
+                key: app_settings
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: flasksecret
+                key: secretkey
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: flasksecret
+                key: db_url
+          - name: DATABASE_TEST_URL
+            valueFrom:
+              secretKeyRef:
+                name: flasksecret
+                key: db_test_url
+          - name: REACT_APP_REDIRECT_URI
+            valueFrom:
+              secretKeyRef:
+                name: flasksecret
+                key: redirect_uri
+          - name: CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: flasksecret
+                key: client_secret
+          - name: REACT_APP_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: flasksecret
+                key: client_id
+        ports:
+          - containerPort: 5000
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web-service
+        image: pablo/app:web
+        imagePullPolicy: Always
+        env:
+          - name: REACT_APP_REDIRECT_URI
+            valueFrom:
+              secretKeyRef:
+                name: flasksecret
+                key: redirect_uri
+          - name: REACT_APP_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: flasksecret
+                key: client_id
+        ports:
+          - containerPort: 80
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: pablo/app:nginx
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 80
+        volumeMounts:
+          - name: nginx-conf
+            mountPath: /etc/nginx/conf.d
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: nginx-conf
+
+---
+apiVersion: v1
+data:
+  prod.conf: |
+    server {
+      listen 80;
+      server_name app.domain.com;
+      location / {
+        proxy_pass        http://web:80;
+        proxy_redirect    default;
+        proxy_set_header  Host $host;
+        proxy_set_header  X-Real-IP $remote_addr;
+        proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header  X-Forwarded-Host $server_name;
+      }
+    }
+    server {
+      listen 5000;
+      server_name app.domain.com;
+      location /(.+) {
+        proxy_pass        http://flask:5000;
+        proxy_redirect    default;
+        proxy_set_header  Host $host;
+        proxy_set_header  X-Real-IP $remote_addr;
+        proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header  X-Forwarded-Host $server_name;
+      }
+    }
+kind: ConfigMap
+metadata:
+  name: nginx-conf

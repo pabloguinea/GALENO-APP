@@ -1,0 +1,61 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./backend
+    command: gunicorn api.wsgi:application --bind 0.0.0.0:8081 --timeout 90 --log-level warning
+    container_name: medical_app_backend
+    volumes:
+      - static_volume:/backend/static
+      - ./backend:/backend
+    expose:
+      - 8081
+    ports:
+      - 8081:8081
+    env_file:
+      - ./backend/.env.prod
+    depends_on:
+      - db
+    #networks:
+    #  - nginx_network
+  
+  db:
+    image: postgres:12.0-alpine
+    container_name: medical_app_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=medical_app_dba
+      - POSTGRES_PASSWORD=I0%QycAI@iRV
+      - POSTGRES_DB=medical_app
+    env_file:
+      - ./db/.env.prod
+    #networks:
+    #  - nginx_network
+  
+  server:
+    build: ./nginx
+    container_name: medical_app_server
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./backend/logs:/app/logs
+      - static_volume:/backend/static:ro
+    depends_on:
+      - backend
+    #networks:
+    #  - nginx_network
+
+#networks:
+#  nginx_network:
+#    driver: bridge
+
+volumes:
+  static_volume:
+  postgres_data:
