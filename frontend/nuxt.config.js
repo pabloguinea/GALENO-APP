@@ -87,6 +87,7 @@ export default {
     /*'@/assets/css/colors/main',*/
     '@/assets/css/elegant_icon.css',
     '@/assets/sass/style.scss',
+    '@/assets/sass/custom.scss',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

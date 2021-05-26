@@ -5,12 +5,14 @@
         <div class="container header-in">
           <div class="row">
             <div class="col-lg-2 col-md-12">
-              <nuxt-link to="/"
-                id="logo"
-                class="d-inline-block margin-tb-15px"
-                ><img  :src="require('~/assets/img/logo-1.png')" width="50%" alt=""
+              <nuxt-link to="/" id="logo" class="d-inline-block margin-tb-15px"
+                ><img
+                  :src="require('~/assets/img/logo-1.png')"
+                  width="50%"
+                  alt=""
               /></nuxt-link>
-              <nuxt-link to="/"
+              <nuxt-link
+                to="/"
                 class="mobile-toggle padding-13px background-main-color"
                 ><i class="fas fa-bars"></i
               ></nuxt-link>
@@ -52,11 +54,11 @@
                     <li>
                       <nuxt-link to="/">Performance</nuxt-link>
                     </li>
-                    <li><nuxt-link to="/" >Accuracy</nuxt-link> </li>
+                    <li><nuxt-link to="/">Accuracy</nuxt-link></li>
                   </ul>
                 </li>
                 <li class="has-dropdown">
-                  <nuxt-link to="/" >References</nuxt-link>
+                  <nuxt-link to="/">References</nuxt-link>
                   <!--<nuxt-link to="/">References</nuxt-link>-->
                 </li>
 
@@ -66,7 +68,9 @@
             <div class="col-lg-3 col-md-12">
               <br />
               <hr class="margin-bottom-0px d-block d-sm-none" />
-              <nuxt-link to="/"
+              <nuxt-link
+                v-if="showLogin"
+                to="/login"
                 class="btn btn-sm border-radius-30 margin-tb-15px text-white background-second-color box-shadow float-right padding-lr-20px margin-left-30px"
               >
                 <i class="fas fa-user"></i> Login
@@ -78,7 +82,22 @@
     </header>
   </div>
 </template>
+<script>
+export default {
+  name: "header-default",
+ 
+  data(){
+    return {};
+  },
+  props: {
+      showLogin: {
+        type: Boolean,
+        required: false,
+      }
+  }
+}
 
+
+</script>
 <style>
-
 </style>

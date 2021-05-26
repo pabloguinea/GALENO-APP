@@ -1,7 +1,7 @@
 
 <template>
-  <div class="default-view">
-    <HeaderDefault :show-login="true" />
+  <div class="pulbic-view">
+    <HeaderPublic :show-login="false" />
     
       <Nuxt />
     
@@ -17,7 +17,8 @@
  * Vertical layout
  */
 export default {
-  name: "default",
+  name: "public",
+   
   created() {},
   methods: {},
   data() {
