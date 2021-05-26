@@ -1,19 +1,11 @@
 
 <template>
-  <div id="layout-wrapper">
-    <!-- ============================================================== -->
-    <!-- Start right Content here -->
-    <!-- ============================================================== -->
-    <div class="main-content">
-      <div class="page-content">
-        <div class="container-fluid">
-          <Header />
-          <Nuxt />
-        </div>
-      </div>
-      <!-- End Page-content -->
-      <!--<Footer />-->
-    </div>
+  <div >
+    <Header />
+    
+      <Nuxt />
+    
+    <Footer />
   </div>
 </template>
 
@@ -25,19 +17,18 @@
  * Vertical layout
  */
 export default {
-  name: 'default',
+  name: "default",
   created() {},
   methods: {},
   data() {
-    return {}
+    return {};
   },
   mounted() {
     //this.toggleMenu();
-  }/*,
-  computed: mapState(['layout']),*/
-}
+  } /*,
+  computed: mapState(['layout']),*/,
+};
 </script>
 
 <style>
-
 </style>

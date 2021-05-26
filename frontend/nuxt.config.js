@@ -1,6 +1,6 @@
 export default {
   server: {
-    host: '0' // 0: localhost - 1: anywhere
+    host: 'localhost' // 0: localhost - 1: anywhere
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -15,12 +15,11 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      { hid: 'description', name: 'description', content: 'Health Care & Medical Services' },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '~/assets/img/favicon.ico' },
-      { rel: 'stylesheet', href: '~/assets/css/bootstrap.min.css' },
-      { rel: 'stylesheet', href: '~/assets/css/hover-min.css' }
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Open+Sans:400,600,800%7CPoppins:300i,300,400,700,400i,500%7CDancing+Script:700%7CDancing+Script:700' },
+      { rel: 'icon', type: 'image/x-icon', href: '/assets/img/favicon.ico' },
     ],
     script: [
       {
@@ -31,16 +30,63 @@ export default {
       {
         src: "//code.jquery.com/jquery-3.2.1.min.js"
       },
+      {
+        type: 'text/javascript',
+        src: "/assets/js/sticky-sidebar.js",
+        body: true,
+      },
+      {
+        type: 'text/javascript',
+        src: "/assets/js/YouTubePopUp.jquery.js",
+        body: true,
+        async: true,
+      },
+      {
+        type: 'text/javascript',
+        src: "/assets/js/owl.carousel.min.js",
+        body: true,
+      },
+      {
+        type: 'text/javascript',
+        src: "/assets/js/imagesloaded.min.js",
+        body: true,
+      },
+      {
+        type: 'text/javascript',
+        src: "/assets/js/wow.min.js",
+        body: true,
+      },
+      {
+        type: 'text/javascript',
+        src: "/assets/js/popper.min.js",
+        body: true,
+      },
+      {
+        type: 'text/javascript',
+        src: "/assets/js/bootstrap.min.js",
+        body: true,
+      },
+      {
+        type: 'text/javascript',
+        src: "/assets/js/custom.js",
+        body: true,
+      },
     ],
   },
 
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    "@/assets/css/flag-icon.min.css",
-    "@/assets/sass/style", 
-    "@/assets/css/colors/main.css",
-    "@/assets/css/elegant_icon.css",
-    
+    '@/assets/css/animate.css',
+    '@/assets/css/owl.carousel.css',
+    '@/assets/css/owl.theme.css',
+    /*'@/assets/css/bootstrap.min.css',*/
+    '@/assets/css/hover-min.css',
+    '@/assets/css/flag-icon.min.css',
+    /*"@/assets/css/style.css",*/
+    /*'@/assets/css/colors/main',*/
+    '@/assets/css/elegant_icon.css',
+    '@/assets/sass/style.scss',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -76,5 +122,7 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    extractCSS: true,
+  }
 }

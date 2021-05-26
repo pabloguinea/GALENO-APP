@@ -5,17 +5,15 @@
         <div class="container header-in">
           <div class="row">
             <div class="col-lg-2 col-md-12">
-              <a
+              <nuxt-link to="/"
                 id="logo"
-                :to="{ path: '/'}" nuxt
                 class="d-inline-block margin-tb-15px"
                 ><img  :src="require('~/assets/img/logo-1.png')" width="50%" alt=""
-              /></a>
-              <a
+              /></nuxt-link>
+              <nuxt-link to="/"
                 class="mobile-toggle padding-13px background-main-color"
-                href="#"
                 ><i class="fas fa-bars"></i
-              ></a>
+              ></nuxt-link>
             </div>
             <div class="col-lg-7 col-md-12 position-inherit">
               <ul
@@ -24,55 +22,55 @@
               >
                 <br />
                 <li class="has-dropdown">
-                  <a href="#">Patologies</a>
+                  <nuxt-link to="/">Patologies</nuxt-link>
                   <ul class="sub-menu">
                     <li>
-                      <a :to="{ path: '/'}" nuxt>Renal Insufficiency</a>
+                      <nuxt-link to="/">Renal Insufficiency</nuxt-link>
                     </li>
                     <li>
-                      <a :to="{ path: '/'}" nuxt>Respiratory Diseases</a>
+                      <nuxt-link to="/">Respiratory Diseases</nuxt-link>
                     </li>
-                    <li><a :to="{ path: '/'}" nuxt>Alzheimer</a></li>
-                    <li><a :to="{ path: '/'}" nuxt>Parkinson</a></li>
+                    <li><nuxt-link to="/">Alzheimer</nuxt-link></li>
+                    <li><nuxt-link to="/">Parkinson</nuxt-link></li>
                   </ul>
                 </li>
                 <li class="has-dropdown">
-                  <a href="#">Technology</a>
+                  <nuxt-link to="/">Technology</nuxt-link>
                   <ul class="sub-menu">
-                    <li><a :to="{ path: '/'}" nuxt>SW Architecture</a></li>
+                    <li><nuxt-link to="/">SW Architecture</nuxt-link></li>
                     <li>
-                      <a :to="{ path: '/'}" nuxt>Artificial Intelligence</a>
+                      <nuxt-link to="/">Artificial Intelligence</nuxt-link>
                     </li>
-                    <li><a :to="{ path: '/'}" nuxt>Data Base</a></li>
+                    <li><nuxt-link to="/">Data Base</nuxt-link></li>
                   </ul>
                 </li>
                 <li class="has-dropdown">
-                  <a href="#">Features</a>
+                  <nuxt-link to="/">Features</nuxt-link>
                   <ul class="sub-menu">
-                    <li><a :to="{ path: '/'}" nuxt>Scalability</a></li>
-                    <li><a :to="{ path: '/'}" nuxt>Usability</a></li>
+                    <li><nuxt-link to="/">Scalability</nuxt-link></li>
+                    <li><nuxt-link to="/">Usability</nuxt-link></li>
                     <li>
-                      <a :to="{ path: '/'}" nuxt>Performance</a>
+                      <nuxt-link to="/">Performance</nuxt-link>
                     </li>
-                    <li><a :to="{ path: '/'}" nuxt>Accuracy</a></li>
+                    <li><nuxt-link to="/" >Accuracy</nuxt-link> </li>
                   </ul>
                 </li>
                 <li class="has-dropdown">
-                  <a :to="{ path: '/'}" nuxt>References</a>
+                  <nuxt-link to="/" >References</nuxt-link>
+                  <!--<nuxt-link to="/">References</nuxt-link>-->
                 </li>
 
-                <li><a :to="{ path: '/'}" nuxt>Conact Us</a></li>
+                <li><nuxt-link to="/">Conact Us</nuxt-link></li>
               </ul>
             </div>
             <div class="col-lg-3 col-md-12">
               <br />
               <hr class="margin-bottom-0px d-block d-sm-none" />
-              <a
-                :to="{ path: '/'}" nuxt
+              <nuxt-link to="/"
                 class="btn btn-sm border-radius-30 margin-tb-15px text-white background-second-color box-shadow float-right padding-lr-20px margin-left-30px"
               >
                 <i class="fas fa-user"></i> Login
-              </a>
+              </nuxt-link>
             </div>
           </div>
         </div>
@@ -82,14 +80,5 @@
 </template>
 
 <style>
-.NuxtLogo {
-  animation: 1s appear;
-  margin: auto;
-}
 
-@keyframes appear {
-  0% {
-    opacity: 0;
-  }
-}
 </style>
