@@ -124,3 +124,6 @@ deploy-frontend-ssl:
 
 dist-frontend-ssl:
 	 docker-compose -f docker-compose-ssl.yml exec frontend yarn generate
+
+dist-frontend:
+	 docker-compose -f docker-compose.yml exec frontend yarn generate
