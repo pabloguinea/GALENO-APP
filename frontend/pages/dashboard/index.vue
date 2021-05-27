@@ -69,7 +69,7 @@
       </div>
 
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-12 d-flex justify-content-center">
           <div class="margin-bottom-30px">
             <div
               class="padding-30px background-white border-radius-20 box-shadow"
@@ -81,12 +81,24 @@
                 Patients Report
               </h3>
               <hr />
-              <div id="piechart_3d" style="width: 380px; height: 220px"></div>
+              <div
+                id="piechart_3d_"
+                style="min-width: 600px; min-height: 250px; display: flex"
+              >
+                <GChart
+                  type="PieChart"
+                  version="current"
+                  :is3D="true"
+                  :data="chartSettings.chartData"
+                  :options="chartSettings.chartOptions"
+                />
+              </div>
+              <!--
               <a
                 href="#"
                 class="btn btn-md border-0 border-radius-10 background-main-color padding-lr-10px text-white margin-tb-5px"
                 >View More</a
-              >
+              >-->
             </div>
           </div>
         </div>
@@ -96,33 +108,16 @@
 </template>
 
 <script>
+import { GChart } from "vue-google-charts";
+
 export default {
   layout: "private",
   transitions: "page",
+  components: {
+    GChart,
+  },
   methods: {
-    initializeCharts() {
-      google.charts.load("current", { packages: ["corechart"] });
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ["Healthy", "Hours per Day"],
-          ["Mild Demented", 5],
-          ["Moderate Demented", 2],
-          ["Very Mild Demented", 2],
-          ["Non Demented", 2],
-        ]);
-
-        var options = {
-          title: "",
-          is3D: true,
-        };
-
-        var chart = new google.visualization.PieChart(
-          document.getElementById("piechart_3d")
-        );
-        chart.draw(data, options);
-      }
-    },
+    initialize() {},
   },
   head() {
     return {
@@ -132,10 +127,32 @@ export default {
   data() {
     return {
       title: "Dashboard",
+      chartSettings: {
+        type: "pieChart",
+        chartData: [
+          ["Healthy", "Hours per Day"],
+          ["Mild Demented", 5],
+          ["Moderate Demented", 2],
+          ["Very Mild Demented", 2],
+          ["Non Demented", 2],
+        ],
+        settings: {
+          packages: ["corechart", "table", "piechart"],
+        },
+        chartOptions: {
+          is3D: true,
+          height: 300,
+          width: 600,
+          chart: {
+            title: "Patients Report",
+            subtitle: "Healthy - Hours per Day",
+          },
+        },
+      },
     };
   },
   created() {
-    this.initializeCharts();
+    //this.initialize();
   },
 };
 </script>

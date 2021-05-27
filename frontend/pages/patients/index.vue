@@ -99,28 +99,8 @@ export default {
   layout: "private",
   transitions: "page",
   methods: {
-    initializeCharts() {
-      google.charts.load("current", { packages: ["corechart"] });
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ["Healthy", "Hours per Day"],
-          ["Mild Demented", 5],
-          ["Moderate Demented", 2],
-          ["Very Mild Demented", 2],
-          ["Non Demented", 2],
-        ]);
-
-        var options = {
-          title: "",
-          is3D: true,
-        };
-
-        var chart = new google.visualization.PieChart(
-          document.getElementById("piechart_3d")
-        );
-        chart.draw(data, options);
-      }
+    initialize() {
+     
     },
   },
   head() {
@@ -134,7 +114,7 @@ export default {
     };
   },
   created() {
-    this.initializeCharts();
+    this.initialize();
   },
 };
 </script>
