@@ -152,7 +152,7 @@
                 label-idle="Drop your image here..."
                 v-bind:allow-multiple="false"
                 accepted-file-types="image/jpeg, image/png"
-                :server="apiUrl"
+                :server="uploaderSettings.server"
                 v-bind:files="uploadedFiles"
                 v-on:onremovefile="handleOnRemoveFile"
                 v-on:onprocessfile="handleOnProcesFile"
@@ -173,10 +173,14 @@
       </div>
     </div>
 
-    <b-toast id="validator-toast" title="There are errors on the form" static no-auto-hide>
+    <b-toast
+      id="validator-toast"
+      title="There are errors on the form"
+      static
+      no-auto-hide
+    >
       Please check all the fields of form
     </b-toast>
-
   </div>
 </template>
 
@@ -192,7 +196,6 @@ import { required, minLength, email } from "vuelidate/lib/validators";
 import vueFilePond from "vue-filepond";
 import "filepond/dist/filepond.min.css";
 
-
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
 
@@ -200,10 +203,9 @@ import FilePondPluginImageEdit from "filepond-plugin-image-edit";
 import "filepond-plugin-image-edit/dist/filepond-plugin-image-edit.css";
 
 import FilePondPluginImageCrop from "filepond-plugin-image-crop";
-import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
-
+import FilePondPluginFileValidateSize from "filepond-plugin-file-validate-size";
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 
 // Create component
 const FilePond = vueFilePond(
@@ -246,13 +248,16 @@ export default {
     },
   },
   methods: {
-    handleOnRemoveFile(error, file){
+    onUpload(response){
       debugger;
     },
-    handleUploadError(error, file, status){
+    handleOnRemoveFile(error, file) {
       debugger;
     },
-    handleOnProcesFile(error, file){
+    handleUploadError(error, file, status) {
+      debugger;
+    },
+    handleOnProcesFile(error, file) {
       debugger;
     },
     handleFilePondInit: function () {
@@ -280,30 +285,31 @@ export default {
 
           break;
         case 2:
-          isValid = !this.$v.form.firstName.$invalid &&
+          isValid =
+            !this.$v.form.firstName.$invalid &&
             !this.$v.form.lastName.$invalid &&
-            !this.$v.form.email.$invalid  &&
+            !this.$v.form.email.$invalid &&
             !this.$v.form.birthDate.$invalid &&
             !this.$v.form.image.$invalid;
-          if(!isValid){
+          if (!isValid) {
             this.$bvToast.toast(`Please check all the form tabs.`, {
-              title: 'There are errors on the form',
+              title: "There are errors on the form",
               autoHideDelay: 5000,
-              variant:'danger',
-              appendToast: false
+              variant: "danger",
+              appendToast: false,
             });
-          } 
+          }
           break;
         default:
           break;
       }
 
-      if(!isValid){
+      if (!isValid) {
         this.$emit("on-validate", this.$data, isValid);
-      }else{
-        debugger
+      } else {
+        debugger;
       }
-      
+
       return isValid;
     },
     formSubmit(e) {
@@ -327,7 +333,14 @@ export default {
   data() {
     return {
       errors: [],
-      apiUrl: "https://galenoapp.teamcloud.com.co/api",
+      uploaderSettings: {
+        server: {
+          url: "https://galenoapp.teamcloud.com.co/api",
+          process: {
+            onload: (response) => this.onUpload(response),
+          },
+        },
+      },
       title: "Dashboard",
       form: {
         firstName: "",

@@ -18,7 +18,7 @@
             data-placement="right"
             title="Dashboard"
           >
-            <nuxt-link to="/dashboard" class="nav-link active">
+            <nuxt-link to="/dashboard" class="nav-link " :class="{'active': $nuxt.$route.path === '/dashboard'}">
               <i class="fas fa-fw fa-home"></i
               ><span class="nav-link-text">Dashboard</span>
             </nuxt-link>
@@ -29,7 +29,7 @@
             data-placement="right"
             title="My items"
           >
-            <nuxt-link to="/patients" class="nav-link">
+            <nuxt-link to="/patients" class="nav-link" :class="{'active': $nuxt.$route.path === '/patients'}">
               <i class="fa fa-fw fa-table"></i>
               <span class="nav-link-text">My Patients</span>
             </nuxt-link>
@@ -45,7 +45,7 @@
             data-placement="right"
             title="Add Listing"
           >
-            <nuxt-link to="/patients/evaluate" class="nav-link">
+            <nuxt-link to="/patients/evaluate" class="nav-link" :class="{'active': $nuxt.$route.path === '/patients/evaluate'}">
               <i class="fa fa-fw fa-plus-circle"></i>
               <span class="nav-link-text">Evaluate Patient</span>
             </nuxt-link>
@@ -56,7 +56,7 @@
             data-placement="right"
             title="Packages"
           >
-            <nuxt-link to="/packages" class="nav-link">
+            <nuxt-link to="/packages" class="nav-link" :class="{'active': $nuxt.$route.path === '/packages'}">
               <i class="far fa-fw fa-list-alt"></i>
               <span class="nav-link-text">Packages</span>
             </nuxt-link>
@@ -71,7 +71,7 @@
             data-placement="right"
             title="My Profile"
           >
-            <nuxt-link to="/account" class="nav-link">
+            <nuxt-link to="/account" class="nav-link" :class="{'active': $nuxt.$route.path === '/account'}">
               <i class="fa fa-fw fa-user-circle"></i>
               <span class="nav-link-text">My Profile</span>
             </nuxt-link>

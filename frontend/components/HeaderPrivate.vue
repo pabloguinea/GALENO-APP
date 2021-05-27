@@ -3,11 +3,11 @@
     <header class="background-white box-shadow fixed-top z-index-99">
       <nav class="container-fluid header-in">
         <div class="row">
-          <div class="col-xl-2 col-lg-2">
-            <nuxt-link to="/" class="d-inline-block margin-tb-15px"
-              ><img
+          <div class="col-xl-2 col-lg-2 d-flex " style="max-height:80px;align-items:center;">
+            <nuxt-link to="/dashboard" class="d-inline-block margin-tb-15px" 
+              ><img class="img-fluid"
                 :src="require('~/assets/img/logo-1.png')"
-                width="40%"
+                style="max-height:80px;"
                 alt=""
             /></nuxt-link>
             <nuxt-link
@@ -70,7 +70,7 @@
                 to="/account"
                 class="margin-top-15px d-inline-block text-grey-3 margin-right-15px"
                 ><img
-                  src="http://placehold.it/60x60"
+                  :src="require('~/assets/img/avatar.png')"
                   class="height-30px border-radius-30"
                   alt=""
                 />
