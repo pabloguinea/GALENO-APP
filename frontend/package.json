@@ -9,6 +9,7 @@
     "generate": "nuxt generate",
     "deploy": "yarn && yarn build && yarn generate ",
     "dist":"cd .. && make dist-frontend-ssl",
+    "push":"cd .. && sudo git add . && sudo git commit -m \"latest from server \" && sudo git push ",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js",
     "test": "jest"
