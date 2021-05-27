@@ -67,7 +67,7 @@
 
             <div class="nav-item dropdown float-left">
               <nuxt-link
-                to="/"
+                to="/account"
                 class="margin-top-15px d-inline-block text-grey-3 margin-right-15px"
                 ><img
                   src="http://placehold.it/60x60"

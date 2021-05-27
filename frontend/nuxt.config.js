@@ -101,6 +101,7 @@ export default {
   plugins: [
     "~/plugins/vue-form-wizard.js",
     "~/plugins/vue-google-charts.js",
+    "~/plugins/vuelidate.js",
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -1,6 +1,6 @@
 <template>
   <div id="add-patient">
-    <div class="row margin-tb-90px margin-lr-10px sm-mrl-0px">
+    <div class="row my-5 py-5 margin-lr-10px sm-mrl-0px">
       <!-- Page Title -->
       <div
         id="page-title"
@@ -16,160 +16,308 @@
           <br />
           <div class="col-lg-8"></div>
         </div>
+
+        <!-- // Page Title -->
+        <div id="regForm" class="">
+          <form-wizard
+            ref="wizard"
+            @on-complete="onCompleteWizard"
+            title=""
+            :startIndex="2"
+            subtitle="Please fill the below form. You will see the evaluation results of this patient in the patients list."
+            shape="circle"
+            color="#0864b2"
+            errorColor="#df1c1c"
+            back-button-text="Previous"
+            next-button-text="Next"
+            finish-button-text="Save"
+          >
+            <tab-content
+              title="Names"
+              icon="fa fa-user"
+              :before-change="() => validateStep()"
+            >
+              <div class="form-group mb-3">
+                <label for="validationCustom01">First name</label>
+                <input
+                  v-model="form.firstName"
+                  required
+                  @input="$v.form.firstName.$touch()"
+                  type="text"
+                  class="form-control"
+                  placeholder="First name"
+                  value="Mark"
+                  :class="{
+                    'is-invalid': submitted && $v.form.firstName.$error,
+                  }"
+                />
+                <div
+                  v-if="submitted && $v.form.firstName.$error"
+                  class="invalid-feedback"
+                >
+                  <span v-if="!$v.form.firstName.required"
+                    >This value is required.</span
+                  >
+                </div>
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="validationCustom01">Last name</label>
+                <input
+                  v-model="form.lastName"
+                  required
+                  @input="$v.form.lastName.$touch()"
+                  type="text"
+                  class="form-control"
+                  placeholder="Last name"
+                  value="Mark"
+                  :class="{
+                    'is-invalid': submitted && $v.form.lastName.$error,
+                  }"
+                />
+                <div
+                  v-if="submitted && $v.form.lastName.$error"
+                  class="invalid-feedback"
+                >
+                  <span v-if="!$v.form.lastName.required"
+                    >This value is required.</span
+                  >
+                </div>
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="validationCustom01">Email</label>
+                <input
+                  v-model="form.email"
+                  required
+                  @input="$v.form.email.$touch()"
+                  type="email"
+                  class="form-control"
+                  placeholder="Email"
+                  value="Mark"
+                  :class="{
+                    'is-invalid': submitted && $v.form.email.$error,
+                  }"
+                />
+                <div
+                  v-if="submitted && $v.form.email.$error"
+                  class="invalid-feedback"
+                >
+                  <span v-if="!$v.form.email.required"
+                    >This value is required.</span
+                  >
+                  <span v-if="!$v.form.email.email"
+                    >This value must be a valid email.</span
+                  >
+                </div>
+              </div>
+            </tab-content>
+            <tab-content
+              title="Age"
+              icon="fa fa-calendar"
+              :before-change="() => validateStep()"
+            >
+              <div class="form-group mb-3">
+                <label>Birth Date</label>
+                <br />
+                <date-picker
+                  v-model="form.birthDate"
+                  lang="en"
+                  :class="{
+                    'is-invalid': submitted && $v.form.birthDate.$error,
+                  }"
+                ></date-picker>
+                <br />
+                <div
+                  v-if="submitted && $v.form.birthDate.$error"
+                  class="invalid-feedback"
+                >
+                  <span v-if="$v.form.birthDate.$error"
+                    >This birth date is required.</span
+                  >
+                </div>
+              </div>
+            </tab-content>
+            <tab-content
+              title="MRI Images"
+              icon="fa fa-image"
+              :before-change="() => validateStep()"
+            >
+              <file-pond
+                maxFileSize="5MB"
+                :acceptedFileTypes="['image/png', 'image/jpeg']"
+                :imageEditAllowEdit="true"
+                name="test"
+                ref="pond"
+                label-idle="Drop your image here..."
+                v-bind:allow-multiple="false"
+                accepted-file-types="image/jpeg, image/png"
+                :server="apiUrl"
+                v-bind:files="uploadedFiles"
+                v-on:onremovefile="handleOnRemoveFile"
+                v-on:onprocessfile="handleOnProcesFile"
+                v-on:error="handleUploadError"
+              />
+
+              <div
+                v-if="submitted && $v.form.image.$error"
+                class="invalid-feedback d-flex"
+              >
+                <span v-if="$v.form.image.$error"
+                  >The MRI image is required.</span
+                >
+              </div>
+            </tab-content>
+          </form-wizard>
+        </div>
       </div>
     </div>
 
-    <!-- // Page Title -->
-    <div class="">
-      <form id="regForm">
-        <!-- One "tab" for each step in the form: -->
-        <div class="tab">
-          Name:
-          <p>
-            <input
-              placeholder="First name..."
-              oninput="this.className = ''"
-              name="fname"
-            />
-          </p>
-          <p>
-            <input
-              placeholder="Last name..."
-              oninput="this.className = ''"
-              name="lname"
-            />
-          </p>
-        </div>
-        <div class="tab">
-          Date of Birth:
-          <p><input id="date" type="date" /></p>
-        </div>
-        <div class="tab">
-          Upload patient's MRI image:
-          <p><input type="file" id="myFile" name="filename" /></p>
-        </div>
-        <div style="overflow: auto">
-          <div style="float: right">
-            <button type="button" id="prevBtn" onclick="nextPrev(-1)">
-              Previous
-            </button>
-            <button type="button" id="nextBtn" onclick="nextPrev(1)">
-              Next
-            </button>
-          </div>
-        </div>
-        <!-- Circles which indicates the steps of the form: -->
-        <div style="text-align: center; margin-top: 40px">
-          <span class="step"></span>
-          <span class="step"></span>
-          <span class="step"></span>
-          <span class="step"></span>
-        </div>
-      </form>
-    </div>
+    <b-toast id="validator-toast" title="There are errors on the form" static no-auto-hide>
+      Please check all the fields of form
+    </b-toast>
+
   </div>
 </template>
 
 <script>
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
+
+import { FormWizard, TabContent } from "vue-form-wizard";
+import "vue-form-wizard/dist/vue-form-wizard.min.css";
+
+import { required, minLength, email } from "vuelidate/lib/validators";
+
+import vueFilePond from "vue-filepond";
+import "filepond/dist/filepond.min.css";
+
+
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+
+import FilePondPluginImageEdit from "filepond-plugin-image-edit";
+import "filepond-plugin-image-edit/dist/filepond-plugin-image-edit.css";
+
+import FilePondPluginImageCrop from "filepond-plugin-image-crop";
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
+
+
+// Create component
+const FilePond = vueFilePond(
+  FilePondPluginFileValidateType,
+  FilePondPluginImagePreview,
+  FilePondPluginImageEdit,
+  /*FilePondPluginImageCrop,*/
+  FilePondPluginFileValidateSize,
+  FilePondPluginImageExifOrientation
+);
+
 export default {
   layout: "private",
   transitions: "page",
+  components: {
+    FormWizard,
+    TabContent,
+    DatePicker,
+    FilePond,
+  },
+  validations: {
+    form: {
+      firstName: {
+        required,
+        minLength: minLength(3),
+      },
+      lastName: {
+        required,
+      },
+      email: {
+        required,
+        email,
+      },
+      birthDate: {
+        required,
+      },
+      image: {
+        required,
+      },
+    },
+  },
   methods: {
-    initialize() {
-      var currentTab = 0; // Current tab is set to be the first tab (0)
-      showTab(currentTab); // Display the current tab
+    handleOnRemoveFile(error, file){
+      debugger;
+    },
+    handleUploadError(error, file, status){
+      debugger;
+    },
+    handleOnProcesFile(error, file){
+      debugger;
+    },
+    handleFilePondInit: function () {
+      console.log("FilePond has initialized");
 
-      function showTab(n) {
-        // This function will display the specified tab of the form...
-        var x = document.getElementsByClassName("tab");
-        let btn = document.getElementById("prevBtn");
-        let btnNext = document.getElementById("nextBtn");
+      // FilePond instance methods are available on `this.$refs.pond`
+    },
+    validateStep(step) {
+      this.submitted = true;
+      let isValid = false;
+      this.$v.form.$touch();
+      console.log(this.$refs.wizard);
 
-        if (x[n]) {
-          x[n].style.display = "block";
-        }
+      // parcially check the vality of form for each tab
+      switch (this.$refs.wizard.activeTabIndex) {
+        case 0:
+          isValid =
+            !this.$v.form.firstName.$invalid &&
+            !this.$v.form.lastName.$invalid &&
+            !this.$v.form.email.$invalid;
 
-        if (btn) {
-          if (n == 0) {
-            document.getElementById("prevBtn").style.display = "none";
-          } else {
-            document.getElementById("prevBtn").style.display = "inline";
-          }
-        }
+          break;
+        case 1:
+          isValid = !this.$v.form.birthDate.$invalid;
 
-        if (btnNext) {
-          if (n == x.length - 1) {
-            document.getElementById("nextBtn").innerHTML = "Submit";
-          } else {
-            document.getElementById("nextBtn").innerHTML = "Next";
-          }
-        }
-
-        //... and run a function that will display the correct step indicator:
-        fixStepIndicator(n);
+          break;
+        case 2:
+          isValid = !this.$v.form.firstName.$invalid &&
+            !this.$v.form.lastName.$invalid &&
+            !this.$v.form.email.$invalid  &&
+            !this.$v.form.birthDate.$invalid &&
+            !this.$v.form.image.$invalid;
+          if(!isValid){
+            this.$bvToast.toast(`Please check all the form tabs.`, {
+              title: 'There are errors on the form',
+              autoHideDelay: 5000,
+              variant:'danger',
+              appendToast: false
+            });
+          } 
+          break;
+        default:
+          break;
       }
 
-      function nextPrev(n) {
-        // This function will figure out which tab to display
-        var x = document.getElementsByClassName("tab");
-        // Exit the function if any field in the current tab is invalid:
-        if (n == 1 && !validateForm()) return false;
-        // Hide the current tab:
-        x[currentTab].style.display = "none";
-        // Increase or decrease the current tab by 1:
-        currentTab = currentTab + n;
-        // if you have reached the end of the form...
-        if (currentTab >= x.length) {
-          // ... the form gets submitted:
-          document.getElementById("regForm").submit();
-          return false;
-        }
-        // Otherwise, display the correct tab:
-        showTab(currentTab);
+      if(!isValid){
+        this.$emit("on-validate", this.$data, isValid);
+      }else{
+        debugger
       }
-
-      function validateForm() {
-        // This function deals with validation of the form fields
-        var x,
-          y,
-          i,
-          valid = true;
-        x = document.getElementsByClassName("tab");
-        y = x[currentTab].getElementsByTagName("input");
-        // A loop that checks every input field in the current tab:
-        for (i = 0; i < y.length; i++) {
-          // If a field is empty...
-          if (y[i].value == "") {
-            // add an "invalid" class to the field:
-            y[i].className += " invalid";
-            // and set the current valid status to false
-            valid = false;
-          }
-        }
-        // If the valid status is true, mark the step as finished and valid:
-        if (valid) {
-          document.getElementsByClassName("step")[currentTab].className +=
-            " finish";
-        }
-        return valid; // return the valid status
-      }
-
-      function fixStepIndicator(n) {
-        // This function removes the "active" class of all steps...
-        var i,
-          x = document.getElementsByClassName("step");
-
-        for (i = 0; i < x.length; i++) {
-          if(x[i]){
-            x[i].className = x[i].className.replace(" active", "");
-          }
-        }
-        //... and adds the "active" class on the current step:
-        if(x[n]){
-          x[n].className += " active";
-        }
+      
+      return isValid;
+    },
+    formSubmit(e) {
+      this.submitted = true;
+      // stop here if form is invalid
+      this.$v.$touch();
+    },
+    onCompleteWizard() {
+      let isLatest = false;
+      if (this.$refs.wizard) {
+        isLatest = this.$refs.wizard.isLastStep;
       }
     },
+    initialize() {},
   },
   head() {
     return {
@@ -178,7 +326,20 @@ export default {
   },
   data() {
     return {
+      errors: [],
+      apiUrl: "https://galenoapp.teamcloud.com.co/api",
       title: "Dashboard",
+      form: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        birthDate: "",
+        image: "",
+      },
+      submitted: false,
+      submitform: false,
+      submit: false,
+      uploadedFiles: [],
     };
   },
   created() {
@@ -187,84 +348,36 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
+span.stepTitle.active {
+  font-weight: 500;
+}
+.vue-form-wizard .wizard-nav-pills > li.active > a .wizard-icon,
+.vue-form-wizard .wizard-nav-pills > li.active > a:focus .wizard-icon,
+.vue-form-wizard .wizard-nav-pills > li.active > a:hover .wizard-icon {
+  color: #ffffff;
+}
+.vue-form-wizard .wizard-icon-circle .wizard-icon {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-self: center;
+}
+
 #add-patient {
-  * {
-    box-sizing: border-box;
-  }
-
-  body {
-    background-color: #f1f1f1;
-  }
-
   #regForm {
-    background-color: #ffffff;
-    margin: 100px auto;
-    font-family: Raleway;
-    padding: 40px;
-    width: 70%;
-    min-width: 300px;
-  }
+    display: flex;
+    justify-content: center;
 
-  h1 {
-    text-align: center;
-  }
+    input:not(.is-invalid) {
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #aaaaaa;
+    }
 
-  input {
-    padding: 10px;
-    width: 100%;
-    font-size: 17px;
-    font-family: Raleway;
-    border: 1px solid #aaaaaa;
-  }
-
-  /* Mark input boxes that gets an error on validation: */
-  input.invalid {
-    background-color: #ffdddd;
-  }
-
-  /* Hide all steps by default: */
-  .tab {
-    display: none;
-  }
-
-  button {
-    background-color: #2097e6;
-    color: #ffffff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 17px;
-    font-family: Raleway;
-    cursor: pointer;
-  }
-
-  button:hover {
-    opacity: 0.8;
-  }
-
-  #prevBtn {
-    background-color: #bbbbbb;
-  }
-
-  /* Make circles that indicate the steps of the form: */
-  .step {
-    height: 15px;
-    width: 15px;
-    margin: 0 2px;
-    background-color: #bbbbbb;
-    border: none;
-    border-radius: 50%;
-    display: inline-block;
-    opacity: 0.5;
-  }
-
-  .step.active {
-    opacity: 1;
-  }
-
-  /* Mark the steps that are finished and valid: */
-  .step.finish {
-    background-color: #4caf50;
+    input.is-invalid {
+      background-color: #ffdddd;
+    }
   }
 }
 </style>
