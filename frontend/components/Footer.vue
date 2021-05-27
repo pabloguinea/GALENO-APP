@@ -22,7 +22,7 @@
             <hr class="border-white opacity-4 margin-tb-45px">
             <div class="row">
                 <div class="col-lg-6">
-                    <p class="margin-0px text-white opacity-7 sm-mb-15px">© 2018 tabib Health Directory | All Right Reserved. </p>
+                    <p class="margin-0px text-white opacity-7 sm-mb-15px">© 2021 Galeno AI | All Right Reserved. </p>
                 </div>
                 <div class="col-lg-6">
                     <ul class="social-icon style-2 float-lg-right">

@@ -2,8 +2,9 @@
   <div class="">
     <section
       class="banner padding-tb-150px sm-ptb-80px background-overlay"
-      :style="{'background-image': 'url('+require('~/assets/img/bg.jpg')+')'}"
-
+      :style="{
+        'background-image': 'url(' + require('~/assets/img/bg.jpg') + ')',
+      }"
     >
       <div class="container z-index-2 position-relative">
         <div class="title">
@@ -28,7 +29,10 @@
                     class="background-main-color text-white border-radius-15 padding-20px text-center opacity-hover-7"
                   >
                     <div class="icon margin-bottom-15px opacity-7">
-                      <img :src="require('~/assets/img/icon/categorie-1.png')" alt="" />
+                      <img
+                        :src="require('~/assets/img/icon/categorie-1.png')"
+                        alt=""
+                      />
                     </div>
                     Doctors
                   </div>
@@ -43,7 +47,10 @@
                     class="background-main-color text-white border-radius-15 padding-20px text-center opacity-hover-7"
                   >
                     <div class="icon margin-bottom-15px opacity-7">
-                      <img :src="require('~/assets/img/icon/categorie-2.png')" alt="" />
+                      <img
+                        :src="require('~/assets/img/icon/categorie-2.png')"
+                        alt=""
+                      />
                     </div>
                     Clinics
                   </div>
@@ -55,7 +62,10 @@
                     class="background-main-color text-white border-radius-15 padding-20px text-center opacity-hover-7"
                   >
                     <div class="icon margin-bottom-15px">
-                      <img :src="require('~/assets/img/icon/categorie-3.png')" alt="" />
+                      <img
+                        :src="require('~/assets/img/icon/categorie-3.png')"
+                        alt=""
+                      />
                     </div>
                     Labs
                   </div>
@@ -67,7 +77,10 @@
                     class="background-main-color text-white border-radius-15 padding-20px text-center opacity-hover-7"
                   >
                     <div class="icon margin-bottom-15px opacity-7">
-                      <img :src="require('~/assets/img/icon/categorie-4.png')" alt="" />
+                      <img
+                        :src="require('~/assets/img/icon/categorie-4.png')"
+                        alt=""
+                      />
                     </div>
                     Pharmacies
                   </div>
@@ -152,10 +165,10 @@
 
 <script>
 export default {
- 
+  layout: "default",
+  transitions: "page",
 };
 </script>
 
 <style>
-
 </style>

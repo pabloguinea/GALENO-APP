@@ -28,6 +28,10 @@ export default {
         async: true,
       },
       {
+        src: "https://www.gstatic.com/charts/loader.js",
+        body: true,
+      },
+      {
         src: "//code.jquery.com/jquery-3.2.1.min.js"
       },
       {
@@ -77,6 +81,9 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    
+    '@/assets/css/sb-admin.css',
+
     '@/assets/css/animate.css',
     '@/assets/css/owl.carousel.css',
     '@/assets/css/owl.theme.css',
@@ -91,7 +98,10 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    "~/plugins/vue-form-wizard.js",
+    "~/plugins/vue-google-charts.js",
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
