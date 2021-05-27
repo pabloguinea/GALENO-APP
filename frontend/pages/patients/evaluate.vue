@@ -23,7 +23,7 @@
             ref="wizard"
             @on-complete="onCompleteWizard"
             title=""
-            :startIndex="2"
+            :startIndex="0"
             subtitle="Please fill the below form. You will see the evaluation results of this patient in the patients list."
             shape="circle"
             color="#0864b2"
