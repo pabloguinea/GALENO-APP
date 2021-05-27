@@ -84,3 +84,4 @@ volumes:
   static_volume:
   postgres_data:
   dist_volume:
+  node_modules_volume:

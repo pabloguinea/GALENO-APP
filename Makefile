@@ -117,5 +117,10 @@ install-server:
 	docker-compose -f docker-compose.yml up -d --no-deps --build --force-recreate --no-deps --renew-anon-volumes server
 
 deploy-frontend:
-	 docker-compose exec frontend yarn deploy
+	 docker-compose -f docker-compose.yml exec frontend yarn deploy
 
+deploy-frontend-ssl:
+	 docker-compose -f docker-compose-ssl.yml exec frontend yarn deploy
+
+dist-frontend-ssl:
+	 docker-compose -f docker-compose-ssl.yml exec frontend yarn generate
