@@ -8,7 +8,7 @@
 
 #!/bin/bash
 
-domains=(galenoapp.teamcloud.com.co)
+domains=(galenoapp.teamcloud.com.co api.galenoapp.teamcloud.com.co)
 rsa_key_size=4096
 root_dir="./nginx/ssl"
 data_path="./$root_dir/data/certbot"

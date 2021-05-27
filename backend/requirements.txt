@@ -6,3 +6,7 @@ asgiref
 djangorestframework
 pytz
 sqlparse
+markdown
+django-filter
+drf-yasg[validation]
+coreapi

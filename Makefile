@@ -10,6 +10,19 @@ build:
 build-ssl:
 	docker-compose -f docker-compose-ssl.yml build 
 
+
+build-frontend:
+	docker-compose build frontend
+
+build-backend:
+	docker-compose build backend
+
+build-backend-ssl:
+	docker-compose -f docker-compose-ssl.yml build backend 
+
+build-frontend-ssl:
+	docker-compose -f docker-compose-ssl.yml build frontend 
+
 up:
 	docker-compose up -d
 
@@ -44,16 +57,16 @@ restart:
 	docker-compose stop && docker-compose start
 
 shell-server:
-	docker exec -ti server /bin/sh
+	docker-compose exec server /bin/sh
 
 shell-frontend:
-	docker exec -ti frontend /bin/sh
+	docker-compose exec frontend /bin/sh
 
 shell-backend:
-	docker exec -ti backend /bin/sh
+	docker-compose exec backend /bin/bash
 
 shell-db:
-	docker exec -ti db /bin/sh
+	docker-compose exec db /bin/sh
 
 log-server:
 	docker-compose logs server  

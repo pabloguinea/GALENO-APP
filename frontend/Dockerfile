@@ -1,4 +1,4 @@
-FROM node:latest  as builder
+FROM node:14.17.0  as builder
 
 RUN apt-get update
 
@@ -12,13 +12,16 @@ ENV PATH ${APP_ROOT}/node_modules/.bin:$PATH
 # Copy the package.json and install dependencies
 COPY package*.json .
 
-RUN yarn install --silent
+RUN yarn --silent
 RUN yarn build
 RUN yarn cache clean
 
 # Copy all the app code
 COPY . ${APP_ROOT}
 
+#RUN yarn generate
+
+RUN ./entrypoint.sh
 
 # run entrypoint.sh
-ENTRYPOINT ["/frontend/entrypoint.sh"]
+CMD ["node"]

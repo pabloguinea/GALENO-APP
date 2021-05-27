@@ -3,10 +3,14 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = []
+    dependencies = [
+        
+    ]
+    
+    initial = False
 
     def generate_superuser(apps, schema_editor):
-        from django.contrib.auth.models import User
+        from core.models import User
 
         DJANGO_DB_NAME = os.environ.get('SQL_DATABASE')
         DJANGO_SU_NAME = os.environ.get('DJANGO_SU_NAME')
