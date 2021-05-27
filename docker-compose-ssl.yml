@@ -38,10 +38,11 @@ services:
   frontend:
     build: ./frontend
     container_name: galeno_app_frontend
+    entrypoint: "/bin/sh -c 'trap : TERM INT; (while true; do sleep 1000; done) & wait'"
     volumes:
       - ./frontend:/frontend
-      - ./frontend/node_modules:/frontend/node_modules
       - dist_volume:/frontend/dist
+      - node_modules_volume:/frontend/node_modules
     depends_on:
       - backend
   
@@ -64,9 +65,8 @@ services:
     volumes:
       - ./nginx/ssl/conf.d:/etc/nginx/conf.d
       - ./backend/logs:/app/logs
-      - ./frontend/dist:/app/html
       - static_volume:/backend/static:ro
-      - dist_volume:/frontend/dist:ro
+      - dist_volume:/app/html:ro
       - ./nginx/ssl/data/certbot/conf:/etc/letsencrypt
       - ./nginx/ssl/data/certbot/www:/var/www/certbot 
     depends_on:
@@ -77,3 +77,4 @@ volumes:
   static_volume:
   postgres_data:
   dist_volume:
+  node_modules_volume:

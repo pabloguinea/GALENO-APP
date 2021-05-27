@@ -97,3 +97,25 @@ postgres-start:
 
 list:
 	docker-compose ps
+
+install-frontend-ssl:
+	docker-compose -f docker-compose-ssl.yml up -d --no-deps --build --force-recreate frontend
+
+install-backend-ssl:
+	docker-compose -f docker-compose-ssl.yml up -d --no-deps --build --force-recreate backend
+
+install-server-ssl:
+	docker-compose -f docker-compose-ssl.yml up -d --no-deps --build --force-recreate server
+
+install-frontend:
+	docker-compose -f docker-compose.yml up -d --no-deps --build --force-recreate --no-deps --renew-anon-volumes frontend
+
+install-backend:
+	docker-compose -f docker-compose.yml up -d --no-deps --build --force-recreate --no-deps --renew-anon-volumes backend
+
+install-server:
+	docker-compose -f docker-compose.yml up -d --no-deps --build --force-recreate --no-deps --renew-anon-volumes server
+
+deploy-frontend:
+	 docker-compose exec frontend yarn deploy
+

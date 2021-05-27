@@ -12,8 +12,8 @@ ENV PATH ${APP_ROOT}/node_modules/.bin:$PATH
 # Copy the package.json and install dependencies
 COPY package*.json .
 
-RUN yarn --silent
-RUN yarn build
+#RUN yarn 
+#RUN yarn build
 RUN yarn cache clean
 
 # Copy all the app code
@@ -21,7 +21,7 @@ COPY . ${APP_ROOT}
 
 #RUN yarn generate
 
-RUN ./entrypoint.sh
+#RUN ./entrypoint.sh
 
 # run entrypoint.sh
-CMD ["node"]
+CMD ["yarn", "deploy"]
