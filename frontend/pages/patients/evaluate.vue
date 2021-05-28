@@ -373,7 +373,7 @@ export default {
   },
   data() {
     return {
-      startTab:2,
+      startTab:0,
       errors: [],
       uploaderSettings: {
         server: {
