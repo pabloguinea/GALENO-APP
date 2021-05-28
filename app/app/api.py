@@ -7,7 +7,9 @@ __copyright__   = "Copyright 2021"
 
 
 import os
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, abort, jsonify, request
+from flask_cors import cross_origin
+from flask import json
 
 from skimage.io import imread
 import io
@@ -16,10 +18,35 @@ from .model import *
 from flask import current_app
 
 from werkzeug.utils import secure_filename
+from werkzeug.exceptions import HTTPException
 
-api = Blueprint('api', __name__)
+api = Blueprint('model', __name__)
 
-@api.route("/predict", methods=["POST"])
+@api.errorhandler(HTTPException)
+def handle_exception(e):
+    """Return JSON instead of HTML for HTTP errors."""
+    # start with the correct headers and status code from the error
+    response = e.get_response()
+    # replace the body with JSON
+    response.data = json.dumps({
+        "code": e.code,
+        "name": e.name,
+        "description": e.description,
+    })
+    response.content_type = "application/json"
+    return response
+
+@api.errorhandler(400)
+def invalid_request(e):
+    return jsonify(error=str(e)), 400
+
+@api.route("/clasify", methods=["DELETE"])
+@cross_origin()
+def remove():
+    return jsonify(1)
+
+@api.route("/clasify", methods=["POST"])
+@cross_origin()
 def predict():
     # result dictionary that will be returned from the view
     result = {"success": False}
@@ -65,6 +92,9 @@ def predict():
 
             # Remove image after prediction is done
             os.remove(local_image_path)
+
+    if result["success"] is False:
+        abort(400, description="Parameters not valid")
 
     # return result dictionary as JSON response to client
     return jsonify(result)

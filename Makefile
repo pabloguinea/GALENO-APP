@@ -80,6 +80,9 @@ log-frontend:
 log-db:
 	docker-compose logs db
 
+log-ml:
+	docker-compose logs ml
+
 collectstatic:
 	docker exec backend /bin/sh -c "python manage.py collectstatic --noinput"
 
@@ -101,6 +104,9 @@ list:
 install-frontend-ssl:
 	docker-compose -f docker-compose-ssl.yml up -d --no-deps --build --force-recreate frontend
 
+install-ml-ssl:
+	docker-compose -f docker-compose-ssl.yml up -d --no-deps --build --force-recreate ml
+
 install-backend-ssl:
 	docker-compose -f docker-compose-ssl.yml up -d --no-deps --build --force-recreate backend
 
@@ -109,6 +115,9 @@ install-server-ssl:
 
 install-frontend:
 	docker-compose -f docker-compose.yml up -d --no-deps --build --force-recreate --no-deps --renew-anon-volumes frontend
+
+install-ml:
+	docker-compose -f docker-compose.yml up -d --no-deps --build --force-recreate --no-deps --renew-anon-volumes ml
 
 install-backend:
 	docker-compose -f docker-compose.yml up -d --no-deps --build --force-recreate --no-deps --renew-anon-volumes backend
