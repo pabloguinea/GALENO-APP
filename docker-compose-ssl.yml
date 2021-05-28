@@ -1,6 +1,22 @@
 version: "3.8"
 
 services:
+  ml:
+    build: ./app
+    command: gunicorn server:app --bind 0.0.0.0:8082 --timeout 120 --log-level warning
+    container_name: galeno_app_ml
+    volumes:
+      - models_volume:/app/models
+      - ./app:/app
+    expose:
+      - 8082
+    ports:
+      - 8082:8082
+    env_file:
+      - ./app/.env
+    depends_on:
+      - db
+
   backend:
     build: ./backend
     command: gunicorn api.wsgi:application --bind 0.0.0.0:8081 --timeout 90 --log-level warning
@@ -71,6 +87,7 @@ services:
       - ./nginx/ssl/data/certbot/www:/var/www/certbot 
     depends_on:
       - backend
+      - ml
       - frontend
 
 volumes:
@@ -78,3 +95,4 @@ volumes:
   postgres_data:
   dist_volume:
   node_modules_volume:
+  models_volume:

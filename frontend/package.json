@@ -11,6 +11,7 @@
     "dist-ssl":"cd .. && make dist-frontend-ssl",
     "dist":"cd .. && make dist-frontend",
     "push":"cd .. && sudo git add . && sudo git commit -m \"latest from server \" && sudo git push ",
+    "pull":"cd .. && sudo git pull && cd frontend && yarn dist  ",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js",
     "test": "jest"

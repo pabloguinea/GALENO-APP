@@ -10,10 +10,15 @@ from flask import Flask, render_template
 
 from config import config
 from .model import init_model
+from flask_cors import CORS, cross_origin
+from flask import json
+from .exceptions import InvalidRequest
 
 def create_app(config_name="default"):
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__)
+    cors = CORS(app)
+    app.config['CORS_HEADERS'] = 'Content-Type'
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
@@ -22,8 +27,11 @@ def create_app(config_name="default"):
         
 
     from .api import api
-    app.register_blueprint(api, url_prefix="/api")
+    app.register_blueprint(api, url_prefix="/model")
 
+    #app.register_error_handler(InvalidRequest, handle_507)
+
+    """
     @app.route("/dlflask", methods=["GET"])
     def dlflask():
         return render_template("dlflask.html")
@@ -32,6 +40,9 @@ def create_app(config_name="default"):
     def index():
         return "App"
 
+    """
+
     return app
+
 
     
