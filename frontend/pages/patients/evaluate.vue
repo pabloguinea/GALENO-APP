@@ -23,7 +23,7 @@
             ref="wizard"
             @on-complete="onCompleteWizard"
             title=""
-            :startIndex="0"
+            :startIndex="startTab"
             subtitle="Please fill the below form. You will see the evaluation results of this patient in the patients list."
             shape="circle"
             color="#0864b2"
@@ -145,29 +145,43 @@
             >
               <file-pond
                 maxFileSize="5MB"
-                :acceptedFileTypes="['image/png', 'image/jpeg']"
                 :imageEditAllowEdit="true"
-                name="test"
+                :required="true"
+                name="file"
                 ref="pond"
                 label-idle="Drop your image here..."
                 v-bind:allow-multiple="false"
                 accepted-file-types="image/jpeg, image/png"
                 :server="uploaderSettings.server"
                 v-bind:files="uploadedFiles"
-                v-on:onremovefile="handleOnRemoveFile"
-                v-on:onprocessfile="handleOnProcesFile"
-                v-on:error="handleUploadError"
+                :onremovefile="handleOnRemoveFile"
+                :onprocessfile="handleOnProcesFile"
+                :error="handleUploadError"
               />
 
               <div
-                v-if="submitted && $v.form.image.$error"
+                v-if="submitted && (!form.results || !form.results.success)"
                 class="invalid-feedback d-flex"
               >
-                <span v-if="$v.form.image.$error"
-                  >The MRI image is required.</span
+                <span >The MRI image is required.</span
                 >
               </div>
+              
+              <b-alert v-if="form.results && form.results.most_probable_category" show :variant="
+                form.results.most_probable_category === '' || form.results.most_probable_category === 'NonDemented' ? 'dark' : (
+                  form.results.most_probable_category === 'VeryMildDemented' ? 'info' : (
+                    form.results.most_probable_category === 'MildDemented' ? 'warning' : 'danger'
+                  )
+                )
+              ">
+              <div>
+                <span class="text-dark card-title">Classification level:</span> <span class="text-bold"> {{form.results.most_probable_category}}</span>
+                </div>
+              </b-alert>
+
             </tab-content>
+            
+            
           </form-wizard>
         </div>
       </div>
@@ -242,32 +256,45 @@ export default {
       birthDate: {
         required,
       },
-      image: {
+      results: {
         required,
       },
     },
   },
   methods: {
-    onUpload(response){
-      debugger;
+    onUpload(response) {
+      this.form.results = JSON.parse(response);
+      if (this.form.results.success) {
+        this.$bvToast.toast(`Your image has been processed successfully. Now you can to complete the saving of form`, {
+          title: "Information",
+          autoHideDelay: 10000,
+          variant: "primary",
+          appendToast: false,
+        });
+      } else {
+        this.$bvToast.toast(
+          `Your image was not processed correctly, please check your image and upload again.`,
+          {
+            title: "Error",
+            autoHideDelay: 10000,
+            variant: "danger",
+            appendToast: false,
+          }
+        );
+      }
     },
     handleOnRemoveFile(error, file) {
-      debugger;
+      this.form.results = null;
     },
     handleUploadError(error, file, status) {
-      debugger;
+      this.form.results = null;
     },
     handleOnProcesFile(error, file) {
-      debugger;
-    },
-    handleFilePondInit: function () {
-      console.log("FilePond has initialized");
-
-      // FilePond instance methods are available on `this.$refs.pond`
+      
     },
     validateStep(step) {
       this.submitted = true;
-      let isValid = false;
+      let isValid = true;
       this.$v.form.$touch();
       console.log(this.$refs.wizard);
 
@@ -285,20 +312,35 @@ export default {
 
           break;
         case 2:
+          
           isValid =
             !this.$v.form.firstName.$invalid &&
             !this.$v.form.lastName.$invalid &&
             !this.$v.form.email.$invalid &&
-            !this.$v.form.birthDate.$invalid &&
-            !this.$v.form.image.$invalid;
+            !this.$v.form.birthDate.$invalid ;
+          
           if (!isValid) {
             this.$bvToast.toast(`Please check all the form tabs.`, {
               title: "There are errors on the form",
-              autoHideDelay: 5000,
+              autoHideDelay: 10000,
               variant: "danger",
               appendToast: false,
             });
           }
+          
+          if(isValid && (!this.form.results || !this.form.results.success)){
+            
+            isValid = false;
+            
+            this.$bvToast.toast(`Please upload an image MRI before to save.`, {
+              title: "Error",
+              autoHideDelay: 10000,
+              variant: "danger",
+              appendToast: false,
+            });
+
+          }
+
           break;
         default:
           break;
@@ -306,9 +348,7 @@ export default {
 
       if (!isValid) {
         this.$emit("on-validate", this.$data, isValid);
-      } else {
-        debugger;
-      }
+      } 
 
       return isValid;
     },
@@ -318,6 +358,7 @@ export default {
       this.$v.$touch();
     },
     onCompleteWizard() {
+      debugger;
       let isLatest = false;
       if (this.$refs.wizard) {
         isLatest = this.$refs.wizard.isLastStep;
@@ -332,10 +373,11 @@ export default {
   },
   data() {
     return {
+      startTab:2,
       errors: [],
       uploaderSettings: {
         server: {
-          url: "https://galenoapp.teamcloud.com.co/api",
+          url: "https://api.galenoapp.teamcloud.com.co/model/clasify",
           process: {
             onload: (response) => this.onUpload(response),
           },
@@ -347,7 +389,7 @@ export default {
         lastName: "",
         email: "",
         birthDate: "",
-        image: "",
+        results: "",
       },
       submitted: false,
       submitform: false,
