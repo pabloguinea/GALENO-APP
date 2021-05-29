@@ -9,4 +9,12 @@ sqlparse
 markdown
 django-filter
 drf-yasg[validation]
+drf-spectacular
 coreapi
+djangorestframework-jsonapi[django-filter]
+djangorestframework-jsonapi[django-polymorphic]
+djangorestframework-jsonapi[openapi]
+django-oauth-toolkit
+django-cors-middleware
+djangorestframework-simplejwt
+django-avatar

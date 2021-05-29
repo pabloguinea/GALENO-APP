@@ -18,7 +18,10 @@ build-backend:
 	docker-compose build backend
 
 build-backend-ssl:
-	docker-compose -f docker-compose-ssl.yml build backend 
+	docker-compose -f docker-compose-ssl.yml up -d --no-deps --build backend
+
+build-schema-backend-ssl:
+	docker-compose -f docker-compose-ssl.yml exec backend /bin/bash -c "python manage.py spectacular --file schema.yml"  
 
 build-frontend-ssl:
 	docker-compose -f docker-compose-ssl.yml build frontend 
@@ -84,10 +87,10 @@ log-ml:
 	docker-compose logs ml
 
 collectstatic:
-	docker exec backend /bin/sh -c "python manage.py collectstatic --noinput"
+	docker-compose exec backend /bin/bash -c "python manage.py collectstatic --noinput"
 
 migrate:
-	docker exec backend /bin/sh -c "python manage.py makemigrations && python manage.py migrate"
+	docker-compose exec backend /bin/bash -c "python manage.py makemigrations && python manage.py migrate core"
 
 prune:
 	docker-compose down && docker system prune -a -f && docker system prune --volumes -f
@@ -108,7 +111,7 @@ install-ml-ssl:
 	docker-compose -f docker-compose-ssl.yml up -d --no-deps --build --force-recreate ml
 
 install-backend-ssl:
-	docker-compose -f docker-compose-ssl.yml up -d --no-deps --build --force-recreate backend
+	docker-compose -f docker-compose-ssl.yml up -d --no-deps --build --force-recreate backend 
 
 install-server-ssl:
 	docker-compose -f docker-compose-ssl.yml up -d --no-deps --build --force-recreate server
