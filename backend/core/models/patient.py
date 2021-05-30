@@ -31,6 +31,7 @@ class Patient (BaseModel):
     birth_date = models.DateField(auto_now=False, null=True)
     classification = models.CharField(max_length=20, choices=CLASSIFICATIONS_TYPE, null=False)
     data = models.JSONField(null=True)
+    is_dm_confirmed = models.BooleanField(null=True)
     
     doctor = models.ForeignKey(User, on_delete=models.CASCADE, null= False)
 

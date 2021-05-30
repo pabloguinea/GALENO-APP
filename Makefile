@@ -60,10 +60,13 @@ restart:
 	docker-compose stop && docker-compose start
 
 shell-server:
-	docker-compose exec server /bin/sh
+	docker-compose exec server /bin/bash
+
+list-media:
+	docker-compose exec backend ls -la /backend/media/users
 
 shell-frontend:
-	docker-compose exec frontend /bin/sh
+	docker-compose exec frontend /bin/bash
 
 shell-backend:
 	docker-compose exec backend /bin/bash

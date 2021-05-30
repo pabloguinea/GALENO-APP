@@ -4,13 +4,19 @@ from django.db import models
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import AbstractUser
 from core.services import UserManager
+from django.dispatch import receiver
+from django.urls import reverse
+from django.db.models.signals import post_save, pre_save
+from django.core.mail import send_mail  
+
+from django_rest_passwordreset.models import ResetPasswordToken
+from django_rest_passwordreset.signals import reset_password_token_created
 from core import logger
+
 
 def photo_file_name(self, filename):
     extension = filename.split('.')[-1]
     filename = 'avatar_{}.{}'.format(self.id, extension)
-    print("MEDIAROOT IN MODEL ", settings.MEDIA_ROOT )
-    logger.debug("Path: %s", os.path.join(settings.MEDIA_ROOT,'/users/', filename))
     return os.path.join(f'users/', filename)
 
 class User(AbstractUser):
@@ -18,8 +24,9 @@ class User(AbstractUser):
     birth_date = models.DateField(auto_now=False, null=True)
     is_active = models.BooleanField(default=True)
     avatar = models.ImageField(upload_to=photo_file_name, blank=True, null=True)
-    #is_staff = models.BooleanField(default=False)  # a admin user; non super-user
-    #is_admin = models.BooleanField(default=False)
+    last_name = models.CharField(max_length=200, null=True)
+    username =models.CharField(max_length=200, null=True, unique=False)
+    
     
     ADMIN = 'admin'
     DOCTOR = 'doctor'
@@ -34,7 +41,7 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name']
     
-    role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=True, null=True)
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, blank=True, null=True, default=DOCTOR)
     
     objects = UserManager()
     

@@ -28,11 +28,14 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.generics import DestroyAPIView
 from rest_framework.generics import UpdateAPIView
 
+from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
+
 # import model
 from core.models import Patient
 
 # import serializers
-from core.serializers import PatientSerializer, PatientDRFSerializer
+from core.serializers import PatientSerializer, PatientDRFSerializer, PatientStatsSerializer
 
 HTTP_422_UNPROCESSABLE_ENTITY = 422
 
@@ -64,45 +67,29 @@ class PatientViewSet(ModelViewSet):
     serializer_class = PatientSerializer
     lookup_url_kwarg = "pk"
 
+    def get_queryset(self, *args, **kwargs):
+        return self.queryset.filter(doctor_id=self.request.user.id)
+
     def get_object(self):
         entry_pk = self.kwargs.get(self.lookup_url_kwarg, None)
         if entry_pk is not None:
-            return Patient.objects.get(id=entry_pk)
+            queryset = Patient.objects.filter(doctor_id=self.request.user.id)
+            return get_object_or_404(queryset, id=entry_pk)
 
         return super(PatientViewSet, self).get_object()
 
-class PatientCustomViewSet(JsonApiViewSet):
+class PatientStatsListView(ListAPIView):
+    serializer_class = PatientStatsSerializer
     queryset = Patient.objects.all()
-    serializer_class = PatientSerializer
 
-class DRFPatientViewSet(ModelViewSet):
-    queryset = Patient.objects.all()
-    serializer_class = PatientDRFSerializer
-    #lookup_url_kwarg = "entry_pk"
-
-    def get_object(self):
-    #    entry_pk = self.kwargs.get(self.lookup_url_kwarg, None)
-    #    if entry_pk is not None:
-    #        return Entry.objects.get(id=entry_pk).blog
-
-        return super(DRFPatientViewSet, self).get_object()
-
-class PatientListAPIView(ListAPIView):
-    """Lists all from the database"""
-    queryset = Patient.objects.all()
-    serializer_class = PatientSerializer
-
-class PatientCreateAPIView(CreateAPIView):
-    """Creates a new """
-    queryset = Patient.objects.all()
-    serializer_class = PatientSerializer
-
-class PatientUpdateAPIView(UpdateAPIView):
-    """Update  whose id has been passed through the request"""
-    queryset = Patient.objects.all()
-    serializer_class = PatientSerializer
-
-class PatientDeleteAPIView(DestroyAPIView):
-    """Deletes  whose id has been passed through the request"""
-    queryset = Patient.objects.all()
-    serializer_class = PatientSerializer
+    def list(self, request):
+        table_name = Patient.objects.model._meta.db_table
+        
+        queryset = Patient.objects.raw(f"SELECT 1 as id, 'classifications' AS TYPE,  classification AS INDICATOR, COUNT ( 0 ) AS COUNT  FROM {table_name} WHERE doctor_id = '{self.request.user.id}' GROUP BY classification \
+            UNION ALL SELECT 2 as id, 'confirmations' AS TYPE, CAST ( is_dm_confirmed AS CHAR ) AS INDICATOR, COUNT ( 0 ) AS COUNT  FROM {table_name} WHERE doctor_id = '{self.request.user.id}' GROUP BY is_dm_confirmed \
+                UNION ALL SELECT 3 as id, 'pendding' AS TYPE, 'pendding' AS INDICATOR, COUNT ( 0 ) AS COUNT FROM {table_name} WHERE doctor_id = '{self.request.user.id}' AND is_dm_confirmed IS NULL \
+                    UNION ALL SELECT 4 as id, 'total' AS TYPE, 'total' AS INDICATOR, COUNT ( 0 ) AS COUNT FROM {table_name} WHERE doctor_id = '{self.request.user.id}' ")
+         
+        # the serializer didn't take my RawQuerySet, so made it into a list
+        serializer = PatientStatsSerializer(list(queryset), many=True)
+        return Response(serializer.data)

@@ -24,3 +24,11 @@ class PatientDRFSerializer(drf_serilazers.ModelSerializer):
     class Meta:
         model = Patient
         fields = "__all__"
+        
+class PatientStatsSerializer(drf_serilazers.Serializer):
+    #model = Patient
+    indicator = drf_serilazers.CharField(max_length=20, required=True)
+    count = drf_serilazers.IntegerField(required=True)
+
+    class Meta:
+        fields = ('indicator', 'count')

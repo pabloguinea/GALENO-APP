@@ -56,14 +56,17 @@ urlpatterns = [
     # https://readthedocs.org/projects/django-rest-framework-json-api/downloads/pdf/stable/
     path('v1/', include("core.urls")),
     
+    # reset password flow
+    #url(r'^v1/account/password/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+    
     #oauth 2.0 server
-    path('oauth/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    path('^v1/oauth/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     
     #jwt 
     # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/getting_started.html#usage
-    path('auth/token/', TokenObtainPairView.as_view(), name='token_retrieve'),
-    path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    url(r'^v1/auth/', include('djoser.urls')),
+    url(r'^v1/auth/', include('djoser.urls.jwt')),
+    #url(r'^v1/auth/', include('djoser.urls.authtoken')),
 
     #openapi 3.0 + documentation
     path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),

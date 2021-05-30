@@ -32,7 +32,7 @@ DEBUG = int(os.environ.get("DEBUG", default=0))
 #ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", default="*").split(" ")
 ALLOWED_HOSTS = ['*']
 
-APPEND_SLASH=False
+APPEND_SLASH=True
 
 # Application definition
 
@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'oauth2_provider',
     'corsheaders',
+    'django_rest_passwordreset',
+    'djoser',
     'core',
 ]
 
@@ -145,8 +147,8 @@ STATIC_URL = os.environ.get("STATIC_URL", default="/static/")
 MEDIA_URL = os.environ.get("MEDIA_URL", '/media/')
 
 
-root = lambda *dirs: os.path.join(os.path.abspath(BASE_DIR), *dirs)
-MEDIA_ROOT = root(os.environ.get("MEDIA_ROOT", "media")) 
+#root = lambda *dirs: os.path.join(os.path.abspath(BASE_DIR), *dirs)
+MEDIA_ROOT = os.environ.get("MEDIA_ROOT", "media") 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -164,8 +166,9 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',),
+        #'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
     
     'PAGE_SIZE': 20,
     'EXCEPTION_HANDLER': 'rest_framework_json_api.exceptions.exception_handler',
@@ -196,44 +199,6 @@ REST_FRAMEWORK = {
     'SEARCH_PARAM': 'filter[search]',
 }
 
-
-REST_FRAMEWORK_ = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication',),
-    'PAGE_SIZE': 10,
-    'EXCEPTION_HANDLER': 'rest_framework_json_api.exceptions.exception_handler',
-    'DEFAULT_PAGINATION_CLASS':
-        'rest_framework_json_api.pagination.JsonApiPageNumberPagination',
-    'DEFAULT_PARSER_CLASSES': (
-        'rest_framework_json_api.parsers.JSONParser',
-        'rest_framework.parsers.FormParser',
-        'rest_framework.parsers.MultiPartParser'
-    ),
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework_json_api.renderers.JSONRenderer',
-        # If you're performance testing, you will want to use the browseable API
-        # without forms, as the forms can generate their own queries.
-        # If performance testing, enable:
-        # 'example.utils.BrowsableAPIRendererWithoutForms',
-        # Otherwise, to play around with the browseable API, enable:
-        'rest_framework_json_api.renderers.BrowsableAPIRenderer'
-    ),
-    'DEFAULT_METADATA_CLASS': 'rest_framework_json_api.metadata.JSONAPIMetadata',
-    #'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema' 
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    #'DEFAULT_SCHEMA_CLASS': 'rest_framework_json_api.schemas.openapi.AutoSchema',
-    'DEFAULT_FILTER_BACKENDS': (
-        'rest_framework_json_api.filters.QueryParameterValidationFilter',
-        'rest_framework_json_api.filters.OrderingFilter',
-        'rest_framework_json_api.django_filters.DjangoFilterBackend',
-        'rest_framework.filters.SearchFilter',
-    ),
-    'SEARCH_PARAM': 'filter[search]',
-   # 'TEST_REQUEST_RENDERER_CLASSES': (
-   #    'rest_framework_json_api.renderers.JSONRenderer',
-   # ),
-   # 'TEST_REQUEST_DEFAULT_FORMAT': 'vnd.api+json'
-}
-
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Galeno App API',
     'DESCRIPTION': 'Galeno App allow to manage all the clinical information of patients',
@@ -247,9 +212,10 @@ LOGIN_URL='/admin/login/'
 # https://django-oauth-toolkit.readthedocs.io/en/latest/tutorial/tutorial_01.html
 CORS_ORIGIN_ALLOW_ALL = True
 
+# settings for JWT
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=300),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=31),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': False,
@@ -286,5 +252,43 @@ SWAGGER_SETTINGS = {
             "name": "Authorization",
             "in": "header"
         }    
+    }
+}
+
+# email settings
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIT_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'apikey'
+SENDGRID_API_KEY = os.environ["SENDGRID_API_KEY"]
+SENDGRID_SANDBOX_MODE_IN_DEBUG=False
+EMAIL_HOST_PASSWORD = os.environ.get("SENDGRID_API_KEY", default="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")
+
+# settings for template_email
+DOMAIN="galenoapp.teamcloud.com.co"
+SITE_NAME="Galeno App"
+DEFAULT_FROM_EMAIL="info@teamcloud.com.co"
+
+# settings for authentication framework
+#https://djoser.readthedocs.io/en/latest/settings.html
+DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
+    'SEND_CONFIRMATION_EMAIL': True,
+    'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
+    'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
+    'USER_CREATE_PASSWORD_RETYPE': True,
+    'SET_PASSWORD_RETYPE': True,
+    'PASSWORD_RESET_CONFIRM_RETYPE': True,
+    'TOKEN_MODEL': None,
+    'SERIALIZERS':{
+        "current_user": "core.serializers.UserCustomSerializer",
+    },
+    'EMAIL': {
+        'activation': 'core.mails.ActivationEmail',
     }
 }

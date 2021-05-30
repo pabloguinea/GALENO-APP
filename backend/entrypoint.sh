@@ -17,4 +17,7 @@ python manage.py migrate
 python manage.py collectstatic --no-input
 python manage.py createsuperuser --noinput
 
+rm api.log
+#rm core.log
+
 exec "$@"

@@ -6,19 +6,19 @@ from rest_framework.views import APIView
 from core.models import User
 
 # import serializers
-from core.serializers import UserSerializer
+from core.serializers import UseropenApiSerializer
 
 class ProfileView(APIView):
     permission_classes = (IsAuthenticated,)
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UseropenApiSerializer
     lookup_url_kwarg = "pk"
 
     def post(self, request, format=None):
         try:
             # exist then update
             profile = User.objects.get(id=request.user.id)
-            serializer = UserSerializer(profile, data=request.data, partial=True)
+            serializer = UseropenApiSerializer(profile, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
