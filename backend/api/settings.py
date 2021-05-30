@@ -290,5 +290,8 @@ DJOSER = {
     },
     'EMAIL': {
         'activation': 'core.mails.ActivationEmail',
+    },
+    'PERMISSIONS':{
+        'user_list': ['rest_framework.permissions.IsAdminUser'],
     }
 }
