@@ -33,7 +33,7 @@ class Patient (BaseModel):
     data = models.JSONField(null=True)
     is_dm_confirmed = models.BooleanField(null=True)
     
-    doctor = models.ForeignKey(User, on_delete=models.CASCADE, null= False)
+    doctor = models.ForeignKey(User, on_delete=models.CASCADE, null= True)
 
     def __str__(self):
         return self.first_name + self.last_name
