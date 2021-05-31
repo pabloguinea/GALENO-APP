@@ -1,12 +1,17 @@
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
-
+import os
 import uuid
 from django.db import models
 from django.utils.timezone import now
 from core.models import User
 from django.utils.translation import gettext as _
 from . import BaseModel
+
+def photo_file_name(self, filename):
+    extension = filename.split('.')[-1]
+    filename = 'avatar_{}.{}'.format(self.id, extension)
+    return os.path.join(f'patients/', filename)
 
 class Patient (BaseModel):
     
@@ -32,6 +37,7 @@ class Patient (BaseModel):
     classification = models.CharField(max_length=20, choices=CLASSIFICATIONS_TYPE, null=False)
     data = models.JSONField(null=True)
     is_dm_confirmed = models.BooleanField(null=True)
+    picture = models.ImageField(upload_to=photo_file_name, blank=True, null=True)
     
     doctor = models.ForeignKey(User, on_delete=models.CASCADE, null= True)
 

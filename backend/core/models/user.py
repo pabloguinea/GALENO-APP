@@ -22,10 +22,12 @@ def photo_file_name(self, filename):
 class User(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     birth_date = models.DateField(auto_now=False, null=True)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
+    is_agreements = models.BooleanField(default=False)
     avatar = models.ImageField(upload_to=photo_file_name, blank=True, null=True)
     last_name = models.CharField(max_length=200, null=True)
     username =models.CharField(max_length=200, null=True, unique=False)
+    card_id =models.CharField(max_length=200, null=True, unique=False)
     
     
     ADMIN = 'admin'
@@ -38,9 +40,16 @@ class User(AbstractUser):
         (GUEST, _('Staff User')),
     ]
     
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name']
+    AREA_CHOICES  = [
+        ('P', _('Pneumology')),
+        ('N', _('Neurology')),
+        ('U', _('Urology')),
+    ]
     
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['first_name', 'area','card_id', 'is_agreements']
+    
+    area =models.CharField(max_length=200, choices=AREA_CHOICES, null=True, unique=False)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, blank=True, null=True, default=DOCTOR)
     
     objects = UserManager()

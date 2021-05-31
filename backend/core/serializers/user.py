@@ -19,7 +19,7 @@ class UserCustomSerializer(drf_serilazers.ModelSerializer):
         #    settings.USER_ID_FIELD,
         #    settings.LOGIN_FIELD,
         #)
-        fields = ('id','email','first_name', 'last_name', 'birth_date', 'last_login','avatar', 'role')
+        fields = ('id','email','first_name', 'last_name', 'birth_date', 'last_login','avatar', 'role', 'card_id', 'area', 'is_agreements')
         read_only_fields = (settings.LOGIN_FIELD,)
 
     
@@ -53,7 +53,7 @@ class UseropenApiSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ('id','email','first_name', 'last_name', 'birth_date', 'last_login','avatar', 'role')
+        fields = ('id','email','first_name', 'last_name', 'birth_date', 'last_login','avatar', 'role', 'card_id', 'area', 'is_agreements')
         #fields = '__all__'
         meta_fields = ("copyright",)
 

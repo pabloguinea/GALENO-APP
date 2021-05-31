@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
-
+from corsheaders.defaults import default_headers
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -56,6 +56,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -63,7 +64,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'api.urls'
@@ -210,7 +210,19 @@ LOGIN_URL='/admin/login/'
 
 #ensure to select only several domains allowed
 # https://django-oauth-toolkit.readthedocs.io/en/latest/tutorial/tutorial_01.html
-CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_ALL_ORIGINS= False
+
+CORS_ALLOWED_ORIGINS = [
+    "https://api.galenoapp.teamcloud.com.co",
+    "https://galenoapp.teamcloud.com.co",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
+]
+
+#CORS_ALLOW_HEADERS = list(default_headers) + [
+#    'Access-Control-Allow-Origin',
+#]
 
 # settings for JWT
 SIMPLE_JWT = {
@@ -257,14 +269,21 @@ SWAGGER_SETTINGS = {
 
 # email settings
 #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIT_PORT = 587
+#EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+#EMAIL_HOST = 'smtp.sendgrid.net'
+#EMAIT_PORT = 587
+#EMAIL_USE_TLS = True
+#EMAIL_HOST_USER = 'apikey'
+#SENDGRID_API_KEY = os.environ["SENDGRID_API_KEY"]
+#SENDGRID_SANDBOX_MODE_IN_DEBUG=False
+#EMAIL_HOST_PASSWORD = os.environ.get("SENDGRID_API_KEY", default="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")
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'apikey'
-SENDGRID_API_KEY = os.environ["SENDGRID_API_KEY"]
-SENDGRID_SANDBOX_MODE_IN_DEBUG=False
-EMAIL_HOST_PASSWORD = os.environ.get("SENDGRID_API_KEY", default="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")
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "softwaretest.mf@gmail.com"
+EMAIL_HOST_PASSWORD = "uoukiwrfvcdhuxfn"
 
 # settings for template_email
 DOMAIN="galenoapp.teamcloud.com.co"
@@ -274,9 +293,9 @@ DEFAULT_FROM_EMAIL="info@teamcloud.com.co"
 # settings for authentication framework
 #https://djoser.readthedocs.io/en/latest/settings.html
 DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
-    'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
-    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': 'auth/password-reset/confirm/?uid={uid}&token={token}',
+    'USERNAME_RESET_CONFIRM_URL': 'auth/username-reset/confirm/?uid={uid}&token={token}',
+    'ACTIVATION_URL': 'auth/activate/?uid={uid}&token={token}',
     'SEND_ACTIVATION_EMAIL': True,
     'SEND_CONFIRMATION_EMAIL': True,
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
