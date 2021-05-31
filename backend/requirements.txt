@@ -16,7 +16,7 @@ djangorestframework-jsonapi[django-filter]
 djangorestframework-jsonapi[django-polymorphic]
 djangorestframework-jsonapi[openapi]
 django-oauth-toolkit
-django-cors-middleware
+django-cors-headers
 djangorestframework-simplejwt
 django-rest-passwordreset
 django-sendgrid-v5
