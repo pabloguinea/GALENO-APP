@@ -45,4 +45,4 @@ class Patient (BaseModel):
         return self.first_name + self.last_name
     
     class Meta:
-        ordering = ("first_name",)
+        ordering = ("-updated_date",)
