@@ -83,7 +83,7 @@
             title="Sing Out"
           >
             <nuxt-link
-              to="/login"
+              to="/auth/login"
               class="nav-link"
               data-toggle="modal"
               data-target="#exampleModal"

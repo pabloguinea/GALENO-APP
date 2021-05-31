@@ -17,35 +17,51 @@
         class="site-form log-in-form box-shadow border-radius-10"
       >
         <div class="form-output">
-          <form>
+          <form v-on:submit.prevent="onSubmit">
             <div class="form-group label-floating">
-              <label class="control-label">Username</label>
-              <input class="form-control" placeholder="" type="email" />
+              <label class="control-label">Email</label>
+              <input
+                class="form-control"
+                placeholder=""
+                type="email"
+                v-model="email"
+              />
             </div>
             <div class="form-group label-floating">
               <label class="control-label">Password</label>
-              <input class="form-control" placeholder="" type="password" />
+              <input
+                class="form-control"
+                placeholder=""
+                type="password"
+                v-model="password"
+              />
             </div>
 
             <div class="remember">
+              <!--
               <div class="checkbox">
                 <label>
                   <input name="optionsCheckboxes" type="checkbox" />
                   Remember Me
                 </label>
               </div>
-              <nuxt-link to="/" class="forgot">Forgot my Password</nuxt-link>
+              -->
+              <nuxt-link to="/auth/password-reset" class="forgot"
+                >Forgot my Password</nuxt-link
+              >
             </div>
 
-            <nuxt-link to="/dashboard" class="btn btn-md btn-primary full-width"
-              >Login</nuxt-link
-            >
+            <input
+              type="submit"
+              class="btn btn-md btn-primary full-width"
+              value="Login"
+            />
 
             <div class="or"></div>
 
             <p>
               Don't you have an account?
-              <nuxt-link to="/register">Register Now!</nuxt-link>
+              <nuxt-link to="/auth/register">Register Now!</nuxt-link>
             </p>
           </form>
         </div>
@@ -56,9 +72,10 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   layout: "public",
-
+  middleware: "public",
   transitions: "page",
   head() {
     return {
@@ -68,7 +85,30 @@ export default {
   data() {
     return {
       title: "Log in",
+      email: "amilest7777@gmail.com",
+      password: "amilest7777",
     };
+  },
+  computed: {
+    ...mapState({
+      authenticated: (state) => state.auth.authenticated,
+    }),
+  },
+  methods: {
+    async onSubmit() {
+      await this.$store.dispatch("auth/login", {
+        email: this.email,
+        password: this.password,
+      });
+    },
+  },
+  watch: {
+    authenticated(value) {
+      debugger;
+      if(value){
+        this.$router.push("/dashboard");
+      }
+    },
   },
 };
 </script>

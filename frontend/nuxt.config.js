@@ -102,6 +102,10 @@ export default {
     "~/plugins/vue-form-wizard.js",
     "~/plugins/vue-google-charts.js",
     "~/plugins/vuelidate.js",
+    "~/plugins/vue-cookie.js",
+    '~/plugins/local-storage',
+    '~/plugins/axios',
+    { src: '~/plugins/vuex-persist', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -117,6 +121,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
+
+    '@nuxtjs/toast',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
@@ -124,7 +130,39 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: 'https://api.galenoapp.teamcloud.com.co/v1',
+    //baseURL:"http://3.20.87.241:8081/v1",
+    https:true,
+  },
+
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: process.env.BROWSER_BASE_URL
+    }
+  },
+
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: process.env.BASE_URL
+    }
+  },
+
+  toast: {
+    duration: 5000,
+    keepOnHover:true,
+    iconPack: 'fontawesome',
+    theme:'toasted-primary', // ['toasted-primary', 'outline', 'bubble']
+    register: [ // Register custom toasts
+      {
+        name: 'default_error',
+        message: 'Something went wrong!.',
+        options: {
+          type: 'error'
+        }
+      }
+    ]
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {

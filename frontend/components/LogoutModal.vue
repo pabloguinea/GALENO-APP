@@ -32,7 +32,7 @@
             >
               Cancel
             </button>
-            <nuxt-link to="/login" class="btn btn-primary">Logout</nuxt-link>
+            <nuxt-link to="/auth/login" class="btn btn-primary">Logout</nuxt-link>
           </div>
         </div>
       </div>

@@ -17,15 +17,20 @@
         class="site-form log-in-form box-shadow border-radius-10"
       >
         <div class="form-output">
-          <form>
+          <form v-on:submit.prevent="onSubmit">
             <div class="form-group label-floating">
               <label class="control-label">Your Name</label>
-              <input class="form-control" placeholder="" type="email" />
+              <input
+                class="form-control"
+                placeholder=""
+                type="text"
+                v-model="form.first_name"
+              />
             </div>
 
             <div class="form-group label-floating is-select">
               <label class="control-label">Your Speciality</label>
-              <select class="selectpicker form-control">
+              <select class="selectpicker form-control" v-model="form.area">
                 <option value="P">Pneumology</option>
                 <option value="N">Neurology</option>
                 <option value="U">Urology</option>
@@ -34,26 +39,50 @@
 
             <div class="form-group label-floating">
               <label class="control-label">Your ID Card</label>
-              <input class="form-control" placeholder="" type="text" />
+              <input
+                class="form-control"
+                placeholder=""
+                type="text"
+                v-model="form.card_id"
+              />
             </div>
             <div class="form-group label-floating">
               <label class="control-label">Your email</label>
-              <input class="form-control" placeholder="" type="email" />
+              <input
+                class="form-control"
+                placeholder=""
+                type="email"
+                v-model="form.email"
+              />
             </div>
 
             <div class="form-group label-floating">
               <label class="control-label">Password</label>
-              <input class="form-control" placeholder="" type="password" />
+              <input
+                class="form-control"
+                placeholder=""
+                type="password"
+                v-model="form.password"
+              />
             </div>
             <div class="form-group label-floating">
               <label class="control-label">Confirm your password</label>
-              <input class="form-control" placeholder="" type="password" />
+              <input
+                class="form-control"
+                placeholder=""
+                type="password"
+                v-model="form.re_password"
+              />
             </div>
 
             <div class="remember">
               <div class="checkbox">
                 <label>
-                  <input name="optionsCheckboxes" type="checkbox" />
+                  <input
+                    name="optionsCheckboxes"
+                    type="checkbox"
+                    v-model="form.is_agreements"
+                  />
                   I accept the
                   <nuxt-link to="/">Terms and Conditions</nuxt-link> of the
                   website
@@ -61,12 +90,14 @@
               </div>
             </div>
 
-            <nuxt-link to="/" class="btn btn-md btn-primary full-width"
-              >Complete sign up !</nuxt-link
-            >
+            <input
+              type="submit"
+              class="btn btn-md btn-primary full-width"
+              value="Complete sign up !"
+            />
 
             <p>
-              you have an account? <nuxt-link to="/login"> Sing in !</nuxt-link>
+              you have an account? <nuxt-link to="/auth/login"> Sing in !</nuxt-link>
             </p>
           </form>
         </div>
@@ -89,7 +120,39 @@ export default {
   data() {
     return {
       title: "Log in",
+      form: {
+        email: "amilest0001@gmail.com",
+        first_name: "prueba01",
+        re_password: "TT00001*",
+        password: "TT00001*",
+        area: "P",
+        card_id: "12220",
+        is_agreements: true,
+      },
     };
+  },
+  methods: {
+    async onSubmit() {
+      
+      let payload = {
+        email: this.form.email,
+        first_name: this.form.first_name,
+        password: this.form.password,
+        re_password: this.form.re_password,
+        area: this.form.area,
+        card_id: this.form.card_id,
+        is_agreements: this.form.is_agreements,
+      };
+
+      await this.$axios.post("/auth/users/", payload);
+
+      this.$toast.success(
+        "Your account was successfully created. Please check your inbox email, We sent a link to activate your account."
+      );
+
+      this.$router.push('/auth/login')
+
+    },
   },
 };
 </script>

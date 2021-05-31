@@ -58,12 +58,11 @@
           <div class="col-xl-4 d-none d-xl-block">
             <hr class="margin-bottom-0px d-block d-sm-none" />
             <br />
-            <nuxt-link
-              to="/login"
+            <a href=""
+              @click.prevent="logout()"
               class="btn btn-sm border-radius-30 margin-tb-15px text-white background-second-color box-shadow float-right padding-lr-25px margin-left-30px"
               ><i class="fa fa-fw fa-sign-out-alt margin-right-7px"></i>
-              Logout</nuxt-link
-            >
+              Logout</a>
 
             <div class="nav-item dropdown float-left">
               <nuxt-link
@@ -84,6 +83,7 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   name: "header-private",
   data() {
@@ -95,6 +95,24 @@ export default {
       required: false,
     },
   },
+  computed: {
+    ...mapState({
+      authenticated: (state) => state.auth.authenticated,
+    }),
+  },
+  methods:{
+    async logout(){
+      await this.$store.dispatch("auth/logout");
+    }
+  },
+  watch: {
+    authenticated(value) {
+      debugger;
+      if(!value){
+        this.$router.push("/auth/login");
+      }
+    },
+  }
 };
 </script>
 <style>
