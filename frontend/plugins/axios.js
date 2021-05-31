@@ -3,7 +3,6 @@ const IGNORED_PATHS = [
 ];
 export default function ({ store, app: { $axios, $toast }, redirect }) {
     $axios.onRequest((config) => {
-        debugger
         // check if the user is authenticated
         if (store.state.auth.access_token) {
             // set the Authorization header using the access token
@@ -15,7 +14,6 @@ export default function ({ store, app: { $axios, $toast }, redirect }) {
 
     $axios.onError((error) => {
         return new Promise(async (resolve, reject) => {
-            debugger
             // ignore certain paths (i.e. paths relating to authentication)
             const isIgnored = IGNORED_PATHS.some(path => error.config.url.includes(path))
 
@@ -41,7 +39,6 @@ export default function ({ store, app: { $axios, $toast }, redirect }) {
 
                 // get the refresh token from the state if it exists
                 const refreshToken = store.state.auth.refresh_token
-                debugger
                 // determine if the error is a result of an expired access token
                 // also ensure that the refresh token is present
                 if (text_code === 'TOKEN_EXPIRED' && refreshToken) {

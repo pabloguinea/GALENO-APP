@@ -104,7 +104,6 @@ export default {
   },
   watch: {
     authenticated(value) {
-      debugger;
       if(value){
         this.$router.push("/dashboard");
       }

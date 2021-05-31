@@ -9,25 +9,25 @@
         <Nuxt />
       </div>
     </div>
-    
+
     <footer-private />
 
     <!-- Scroll to Top Button-->
-    <nuxt-link to="/"  class="scroll-to-top rounded" href="#page-top">
-        <i class="fa fa-angle-up"></i>
+    <nuxt-link to="/" class="scroll-to-top rounded" href="#page-top">
+      <i class="fa fa-angle-up"></i>
     </nuxt-link>
-    
+
     <!-- Modal Logout -->
-     <logout-modal />
+    <logout-modal />
 
-
+    <vue-confirm-dialog></vue-confirm-dialog>
   </div>
 </template>
 
 <script>
 import HeaderPrivate from "~/components/HeaderPrivate.vue";
 import LeftSidebar from "~/components/LeftSidebar.vue";
-import LogoutModal from '~/components/LogoutModal.vue';
+import LogoutModal from "~/components/LogoutModal.vue";
 //import { mapState } from 'vuex'
 //import EventBus from '../helpers/utils/EventBus'
 

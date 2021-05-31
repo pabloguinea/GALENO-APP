@@ -3,11 +3,15 @@
     <header class="background-white box-shadow fixed-top z-index-99">
       <nav class="container-fluid header-in">
         <div class="row">
-          <div class="col-xl-2 col-lg-2 d-flex " style="max-height:80px;align-items:center;">
-            <nuxt-link to="/dashboard" class="d-inline-block margin-tb-15px" 
-              ><img class="img-fluid"
+          <div
+            class="col-xl-2 col-lg-2 d-flex"
+            style="max-height: 80px; align-items: center"
+          >
+            <nuxt-link to="/dashboard" class="d-inline-block margin-tb-15px"
+              ><img
+                class="img-fluid"
                 :src="require('~/assets/img/logo-1.png')"
-                style="max-height:80px;"
+                style="max-height: 80px"
                 alt=""
             /></nuxt-link>
             <nuxt-link
@@ -25,27 +29,57 @@
               <li class="has-dropdown">
                 <nuxt-link to="/" target="_blank">Patologies</nuxt-link>
                 <ul class="sub-menu">
-                  <li><nuxt-link to="/" target="_blank">Renal Insufficiency</nuxt-link></li>
-                  <li><nuxt-link to="/" target="_blank">Respiratory Diseases</nuxt-link></li>
-                  <li><nuxt-link to="/" target="_blank">Alzheimer</nuxt-link></li>
-                  <li><nuxt-link to="/" target="_blank">Parkinson</nuxt-link></li>
+                  <li>
+                    <nuxt-link to="/" target="_blank"
+                      >Renal Insufficiency</nuxt-link
+                    >
+                  </li>
+                  <li>
+                    <nuxt-link to="/" target="_blank"
+                      >Respiratory Diseases</nuxt-link
+                    >
+                  </li>
+                  <li>
+                    <nuxt-link to="/" target="_blank">Alzheimer</nuxt-link>
+                  </li>
+                  <li>
+                    <nuxt-link to="/" target="_blank">Parkinson</nuxt-link>
+                  </li>
                 </ul>
               </li>
               <li class="has-dropdown">
                 <nuxt-link to="/" target="_blank">Technology</nuxt-link>
                 <ul class="sub-menu">
-                  <li><nuxt-link to="/" target="_blank">SW Architecture</nuxt-link></li>
-                  <li><nuxt-link to="/" target="_blank">Artificial Intelligence</nuxt-link></li>
-                  <li><nuxt-link to="/" target="_blank">Data Base</nuxt-link></li>
+                  <li>
+                    <nuxt-link to="/" target="_blank"
+                      >SW Architecture</nuxt-link
+                    >
+                  </li>
+                  <li>
+                    <nuxt-link to="/" target="_blank"
+                      >Artificial Intelligence</nuxt-link
+                    >
+                  </li>
+                  <li>
+                    <nuxt-link to="/" target="_blank">Data Base</nuxt-link>
+                  </li>
                 </ul>
               </li>
               <li class="has-dropdown">
                 <nuxt-link to="/">Features</nuxt-link>
                 <ul class="sub-menu">
-                  <li><nuxt-link to="/" target="_blank">Scalability</nuxt-link></li>
-                  <li><nuxt-link to="/" target="_blank">Usability</nuxt-link></li>
-                  <li><nuxt-link to="/" target="_blank">Performance</nuxt-link></li>
-                  <li><nuxt-link to="/" target="_blank">Accuracy</nuxt-link></li>
+                  <li>
+                    <nuxt-link to="/" target="_blank">Scalability</nuxt-link>
+                  </li>
+                  <li>
+                    <nuxt-link to="/" target="_blank">Usability</nuxt-link>
+                  </li>
+                  <li>
+                    <nuxt-link to="/" target="_blank">Performance</nuxt-link>
+                  </li>
+                  <li>
+                    <nuxt-link to="/" target="_blank">Accuracy</nuxt-link>
+                  </li>
                 </ul>
               </li>
               <li class="has-dropdown">
@@ -58,22 +92,37 @@
           <div class="col-xl-4 d-none d-xl-block">
             <hr class="margin-bottom-0px d-block d-sm-none" />
             <br />
-            <a href=""
+            <a
+              href=""
               @click.prevent="logout()"
               class="btn btn-sm border-radius-30 margin-tb-15px text-white background-second-color box-shadow float-right padding-lr-25px margin-left-30px"
               ><i class="fa fa-fw fa-sign-out-alt margin-right-7px"></i>
-              Logout</a>
+              Logout</a
+            >
 
             <div class="nav-item dropdown float-left">
               <nuxt-link
+                v-if="this.user"
                 to="/account"
                 class="margin-top-15px d-inline-block text-grey-3 margin-right-15px"
                 ><img
+                  v-if="
+                    this.user.attributes.avatar &&
+                    this.user.attributes.avatar !== ''
+                  "
+                  :src="this.user.attributes.avatar"
+                  class="height-30px border-radius-30"
+                  alt=""
+                />
+
+                <img
+                  v-else
                   :src="require('~/assets/img/avatar.png')"
                   class="height-30px border-radius-30"
                   alt=""
                 />
-                Pablo Guinea</nuxt-link
+                {{ this.user.attributes.first_name }}
+                {{ this.user.attributes.last_name }}!</nuxt-link
               >
             </div>
           </div>
@@ -98,21 +147,24 @@ export default {
   computed: {
     ...mapState({
       authenticated: (state) => state.auth.authenticated,
+      user: (state) => state.auth.user,
     }),
   },
-  methods:{
-    async logout(){
+  methods: {
+    async logout() {
       await this.$store.dispatch("auth/logout");
-    }
+    },
   },
   watch: {
     authenticated(value) {
-      debugger;
-      if(!value){
+      if (!value) {
         this.$router.push("/auth/login");
       }
     },
-  }
+    user(data) {
+      console.log("user: ", data);
+    },
+  },
 };
 </script>
 <style>

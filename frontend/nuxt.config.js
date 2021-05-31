@@ -105,6 +105,7 @@ export default {
     "~/plugins/vue-cookie.js",
     '~/plugins/local-storage',
     '~/plugins/axios',
+    '~/plugins/vue-confirm-dialog.js',
     { src: '~/plugins/vuex-persist', ssr: false }
   ],
 

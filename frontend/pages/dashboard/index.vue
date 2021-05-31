@@ -9,7 +9,7 @@
             class="far fa-user text-icon-large margin-bottom-10px opacity-5 d-block"
           ></i>
 
-          <span class="font-2 text-extra-large">17</span>
+          <span class="font-2 text-extra-large">{{ indicators.total }}</span>
           <span class="margin-left-10px">Patients</span>
           <p></p>
         </h6>
@@ -24,7 +24,9 @@
           <i
             class="far fa-user text-icon-large margin-bottom-10px opacity-5 d-block"
           ></i>
-          <span class="font-2 text-extra-large">9</span>
+          <span class="font-2 text-extra-large">{{
+            indicators.pathologies
+          }}</span>
           <span class="margin-left-10px">Patients with pathologies</span>
         </h6>
       </a>
@@ -38,7 +40,7 @@
           <i
             class="far fa-map text-icon-large margin-bottom-10px opacity-5 d-block"
           ></i>
-          <span class="font-2 text-extra-large">6</span>
+          <span class="font-2 text-extra-large">{{ indicators.pendding }}</span>
           <span class="margin-left-10px">Diagnosis pending</span>
           <p></p>
         </h6>
@@ -53,7 +55,9 @@
           <i
             class="fas fa-chart-line text-icon-large margin-bottom-10px opacity-5 d-block"
           ></i>
-          <span class="font-2 text-extra-large">90%</span>
+          <span class="font-2 text-extra-large"
+            >{{ indicators.accuracy }}%</span
+          >
           <span class="margin-left-10px">Accuracy</span>
           <p></p>
         </h6>
@@ -64,7 +68,11 @@
       <div
         class="alert alert-info margin-bottom-35px border-radius-10 padding-30px"
       >
-        Welcome <strong>Pablo!</strong>
+        Welcome
+        <strong
+          >{{ this.user.attributes.first_name }}
+          {{ this.user.attributes.last_name }}!</strong
+        >
         <hr />
       </div>
 
@@ -86,6 +94,7 @@
                 style="min-width: 600px; min-height: 250px; display: flex"
               >
                 <GChart
+                  v-if="this.reports.length"
                   type="PieChart"
                   version="current"
                   :is3D="true"
@@ -108,18 +117,60 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { GChart } from "vue-google-charts";
 
 export default {
-  middleware: 'authenticated',
+  middleware: "authenticated",
   scrollToTop: true,
   layout: "private",
   transitions: "page",
   components: {
     GChart,
   },
+  computed: {
+    ...mapState({
+      user: (state) => state.auth.user,
+    }),
+  },
   methods: {
+    init() {
+      console.log(this.user);
+    },
     initialize() {},
+  },
+  async fetch() {
+    this.reports = await this.$axios.get("patients/report").then((res) => {
+      return res.data.data;
+    });
+
+    if (this.reports.length > 0) {
+      this.reports.forEach((report) => {
+        switch (report.attributes.indicator) {
+          case "total":
+            this.indicators.total = report.attributes.count;
+            break;
+
+          case "pendding":
+            this.indicators.pendding = report.attributes.count;
+            break;
+
+          case "t":
+            this.indicators.pathologies = report.attributes.count;
+            break;
+
+          default:
+            let index = this.listTypes.indexOf(report.attributes.indicator);
+            if (index > -1) {
+              this.chartSettings.chartData[index][1] = report.attributes.count;
+            }
+            break;
+        }
+      });
+
+      console.log("reports:", this.reports);
+      console.log("chartData: ", this.chartSettings.chartData);
+    }
   },
   head() {
     return {
@@ -129,14 +180,27 @@ export default {
   data() {
     return {
       title: "Dashboard",
+      reports: [],
+      listTypes: [
+        "NonDemented",
+        "MildDemented",
+        "ModerateDemented",
+        "VeryMildDemented",
+      ],
+      indicators: {
+        total: 0,
+        pathologies: 0,
+        pendding: 0,
+        accuracy: 90,
+      },
       chartSettings: {
         type: "pieChart",
         chartData: [
           ["Healthy", "Hours per Day"],
-          ["Mild Demented", 5],
-          ["Moderate Demented", 2],
-          ["Very Mild Demented", 2],
-          ["Non Demented", 2],
+          ["Non Demented", 0],
+          ["Mild Demented", 0],
+          ["Moderate Demented", 0],
+          ["Very Mild Demented", 0],
         ],
         settings: {
           packages: ["corechart", "table", "piechart"],
@@ -153,8 +217,13 @@ export default {
       },
     };
   },
-  created() {
-    //this.initialize();
+  mounted() {
+    this.init();
+  },
+  watch: {
+    user(data) {
+      console.log("user: ", data);
+    },
   },
 };
 </script>
