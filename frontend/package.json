@@ -33,6 +33,7 @@
     "filepond-plugin-image-preview": "^4.6.6",
     "js-cookie": "^2.2.1",
     "jsonapi-vuex": "^5.1.0",
+    "moment": "^2.29.1",
     "nuxt": "^2.15.3",
     "vue-confirm-dialog": "^1.0.2",
     "vue-cookie": "^1.1.4",
