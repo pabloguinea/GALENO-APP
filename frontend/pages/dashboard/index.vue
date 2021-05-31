@@ -111,6 +111,8 @@
 import { GChart } from "vue-google-charts";
 
 export default {
+  middleware: 'authenticated',
+  scrollToTop: true,
   layout: "private",
   transitions: "page",
   components: {

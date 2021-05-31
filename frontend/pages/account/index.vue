@@ -86,6 +86,7 @@
 export default {
   layout: "private",
   transitions: "page",
+  middleware: 'authenticated',
   methods: {
     initialize() {},
   },
