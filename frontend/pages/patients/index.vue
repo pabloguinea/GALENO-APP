@@ -83,13 +83,14 @@
             <span class="text-grey-2 mr-5" v-if="patient.attributes.data"
               ><i class="far fa-user"></i> Diagnosis:
               <span
-                class=""
+                style="font-weight:800;"
                 :class="{
                   'text-primary': patient.attributes.is_dm_confirmed,
                   'text-danger': false === patient.attributes.is_dm_confirmed,
                 }"
                 >{{ patient.attributes.data.most_probable_category }}
                 <span
+                style="font-weight:400;"
                   class="text-warning"
                   v-if="null === patient.attributes.is_dm_confirmed"
                   >(Non validated)</span
@@ -208,7 +209,6 @@ export default {
     return {
       title: "Dashboard",
       imagesSelected: [],
-      patientsSelected: [],
       indexImage: null,
       patients: [],
     };

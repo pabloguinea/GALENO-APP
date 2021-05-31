@@ -160,28 +160,60 @@
               />
 
               <div
-                v-if="submitted && (!form.results || !form.results.success)"
+                v-if="
+                  !currentPatient &&
+                  submitted &&
+                  (!form.results || !form.results.success)
+                "
                 class="invalid-feedback d-flex"
               >
-                <span >The MRI image is required.</span
-                >
+                <span>The MRI image is required.</span>
               </div>
-              
-              <b-alert v-if="form.results && form.results.most_probable_category" show :variant="
-                form.results.most_probable_category === '' || form.results.most_probable_category === 'NonDemented' ? 'dark' : (
-                  form.results.most_probable_category === 'VeryMildDemented' ? 'info' : (
-                    form.results.most_probable_category === 'MildDemented' ? 'warning' : 'danger'
-                  )
-                )
-              ">
-              <div>
-                <span class="text-dark card-title">Classification level:</span> <span class="text-bold"> {{form.results.most_probable_category}}</span>
+
+              <!---  Current image -->
+              <div
+                class="d-flex justify-content-center margin-20px"
+                v-if="
+                  currentPatient &&
+                  currentPatient.attributes.picture &&
+                  currentPatient.attributes.picture !== ''
+                "
+              >
+                <div
+                  style="height: 200px; width: 200px; cursor: pointer"
+                  class="image img-fluid"
+                  @click="getImageIndex(currentPatient)"
+                  :style="{
+                    backgroundImage:
+                      'url(' + currentPatient.attributes.picture + ')',
+                  }"
+                ></div>
+              </div>
+
+              <b-alert
+                v-if="form.results && form.results.most_probable_category"
+                show
+                :variant="
+                  form.results.most_probable_category === '' ||
+                  form.results.most_probable_category === 'NonDemented'
+                    ? 'dark'
+                    : form.results.most_probable_category === 'VeryMildDemented'
+                    ? 'info'
+                    : form.results.most_probable_category === 'MildDemented'
+                    ? 'warning'
+                    : 'danger'
+                "
+              >
+                <div>
+                  <span class="text-dark card-title"
+                    >Classification level:</span
+                  >
+                  <span class="text-bold">
+                    {{ form.results.most_probable_category }}</span
+                  >
                 </div>
               </b-alert>
-
             </tab-content>
-            
-            
           </form-wizard>
         </div>
       </div>
@@ -195,10 +227,25 @@
     >
       Please check all the fields of form
     </b-toast>
+
+    <CoolLightBox
+      v-if="this.currentPatient"
+      :items="imagesSelected"
+      :index="indexImage"
+      :useZoomBar="true"
+      :effect="'fade'"
+      :fullScreen="true"
+      @close="indexImage = null"
+    ></CoolLightBox>
   </div>
 </template>
 
 <script>
+import moment from "moment";
+
+import CoolLightBox from "vue-cool-lightbox";
+import "vue-cool-lightbox/dist/vue-cool-lightbox.min.css";
+
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 
@@ -239,6 +286,7 @@ export default {
     TabContent,
     DatePicker,
     FilePond,
+    CoolLightBox,
   },
   validations: {
     form: {
@@ -262,15 +310,21 @@ export default {
     },
   },
   methods: {
+    getImageIndex(patient) {
+      this.indexImage = this.imagesSelected.indexOf(patient.attributes.picture);
+    },
     onUpload(response) {
       this.form.results = JSON.parse(response);
       if (this.form.results.success) {
-        this.$bvToast.toast(`Your image has been processed successfully. Now you can to complete the saving of form`, {
-          title: "Information",
-          autoHideDelay: 10000,
-          variant: "primary",
-          appendToast: false,
-        });
+        this.$bvToast.toast(
+          `Your image has been processed successfully. Now you can to complete the saving of form`,
+          {
+            title: "Information",
+            autoHideDelay: 10000,
+            variant: "primary",
+            appendToast: false,
+          }
+        );
       } else {
         this.$bvToast.toast(
           `Your image was not processed correctly, please check your image and upload again.`,
@@ -290,7 +344,7 @@ export default {
       this.form.results = null;
     },
     handleOnProcesFile(error, file) {
-      
+      this.processedFiles.push(file.file);
     },
     validateStep(step) {
       this.submitted = true;
@@ -312,13 +366,12 @@ export default {
 
           break;
         case 2:
-          
           isValid =
             !this.$v.form.firstName.$invalid &&
             !this.$v.form.lastName.$invalid &&
             !this.$v.form.email.$invalid &&
-            !this.$v.form.birthDate.$invalid ;
-          
+            !this.$v.form.birthDate.$invalid;
+
           if (!isValid) {
             this.$bvToast.toast(`Please check all the form tabs.`, {
               title: "There are errors on the form",
@@ -327,18 +380,20 @@ export default {
               appendToast: false,
             });
           }
-          
-          if(isValid && (!this.form.results || !this.form.results.success)){
-            
+
+          if (
+            !this.currentPatient &&
+            isValid &&
+            (!this.form.results || !this.form.results.success)
+          ) {
             isValid = false;
-            
+
             this.$bvToast.toast(`Please upload an image MRI before to save.`, {
               title: "Error",
               autoHideDelay: 10000,
               variant: "danger",
               appendToast: false,
             });
-
           }
 
           break;
@@ -348,7 +403,7 @@ export default {
 
       if (!isValid) {
         this.$emit("on-validate", this.$data, isValid);
-      } 
+      }
 
       return isValid;
     },
@@ -357,12 +412,58 @@ export default {
       // stop here if form is invalid
       this.$v.$touch();
     },
-    onCompleteWizard() {
-      debugger;
-      let isLatest = false;
-      if (this.$refs.wizard) {
-        isLatest = this.$refs.wizard.isLastStep;
+    async onCompleteWizard() {
+      
+      let payload = {
+        first_name: this.form.firstName,
+        last_name: this.form.lastName,
+        email: this.form.email,
+        birth_date: this.form.birthDate
+          ? moment(this.form.birthDate).format("YYYY-MM-DD")
+          : null,
+        data: this.form.results,
+        classification: this.form.results
+          ? this.form.results.most_probable_category
+          : null,
+      };
+
+      console.log("Payload ", payload);
+      if (!this.currentPatient) {
+        // is creating
+        this.currentPatient = await this.$axios
+          .post("patients", payload)
+          .then((res) => {
+            return res.data.data;
+          });
+      } else {
+        // is updating
+        await this.$axios.patch("patients/" + this.currentPatient.id, payload);
       }
+
+      console.log(this.processedFiles, this.currentPatient);
+      if (this.processedFiles.length > 0 && this.currentPatient.id) {
+        
+        let file = this.processedFiles[0];
+
+        payload = new FormData();
+        payload.append('picture', file, file.name);
+
+        await this.$axios.patch(
+          "patients/" + this.currentPatient.id,
+          payload,
+          {
+            headers: {
+              "Content-Type": `multipart/form-data; boundary=${payload._boundary}`,
+            },
+          }
+        );
+      }
+
+      // upload image to server
+      this.$toast.success("The patient was saved correctly.");
+
+      this.$router.push("/patients");
+
     },
     initialize() {},
   },
@@ -371,10 +472,39 @@ export default {
       title: `${this.title} | Medical Health Services`,
     };
   },
+  async fetch() {
+    if (this.$route.query.id) {
+      this.currentPatient = await this.$axios
+        .get("patients/" + this.$route.query.id)
+        .then((res) => {
+          return res.data.data;
+        });
+      console.log("currentPatient ", this.currentPatient);
+
+      if (this.currentPatient) {
+        this.form.firstName = this.currentPatient.attributes.first_name;
+        this.form.lastName = this.currentPatient.attributes.last_name;
+        this.form.email = this.currentPatient.attributes.email;
+        this.form.birthDate = new Date(
+          this.currentPatient.attributes.birth_date
+        );
+        this.form.results = this.currentPatient.attributes.data;
+        this.form.classification = this.currentPatient.attributes.classification;
+        this.form.is_dm_confirmed = this.currentPatient.attributes.is_dm_confirmed;
+
+        if (this.currentPatient.attributes.picture) {
+          this.imagesSelected.push(this.currentPatient.attributes.picture);
+        }
+      }
+    }
+  },
   data() {
     return {
-      startTab:0,
+      startTab: 0,
       errors: [],
+      imagesSelected: [],
+      indexImage: null,
+      currentPatient: null,
       uploaderSettings: {
         server: {
           url: "https://api.galenoapp.teamcloud.com.co/model/clasify",
@@ -395,6 +525,7 @@ export default {
       submitform: false,
       submit: false,
       uploadedFiles: [],
+      processedFiles: [],
     };
   },
   created() {
