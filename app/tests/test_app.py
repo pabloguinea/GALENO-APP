@@ -18,7 +18,7 @@ def test_index(client):
 
 def test_api(client):
     # server REST API endpoint url and example image path
-    SERVER_URL = "http://127.0.0.1:5000/api/predictlabel"
+    SERVER_URL = "https://api.galenoapp.teamcloud.com.co/model/clasify"
     IMAGE_PATH = "../app/static/4.jpg"
 
     # create payload with image for request

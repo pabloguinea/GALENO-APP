@@ -170,7 +170,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ),
     
-    'PAGE_SIZE': 20,
+    'PAGE_SIZE': 100,
     'EXCEPTION_HANDLER': 'rest_framework_json_api.exceptions.exception_handler',
     'DEFAULT_PAGINATION_CLASS':
         'rest_framework_json_api.pagination.JsonApiPageNumberPagination',
@@ -282,8 +282,8 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "softwaretest.mf@gmail.com"
-EMAIL_HOST_PASSWORD = "uoukiwrfvcdhuxfn"
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", 'pabloguineab@gmail.com')
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", 'eiclrhnduvvnrzvx')
 
 # settings for template_email
 DOMAIN="galenoapp.teamcloud.com.co"
