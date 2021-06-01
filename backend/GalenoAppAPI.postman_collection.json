@@ -1,446 +1,11 @@
 {
 	"info": {
-		"_postman_id": "d5fd1ec5-2654-485a-82e6-5b6bc13bcf06",
-		"name": "GalenoApp",
+		"_postman_id": "55c054f2-e387-43c4-b03a-31706f32619f",
+		"name": "GalenoApi",
+		"description": "Api for the Galeno IA APP",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
-		{
-			"name": "Patients",
-			"item": [
-				{
-					"name": "DeletePatient",
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {}
-					},
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/vnd.api+json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/v1/patients/022773cc-b680-4d74-9c86-7eccbece32d3",
-							"protocol": "https",
-							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
-							],
-							"path": [
-								"v1",
-								"patients",
-								"022773cc-b680-4d74-9c86-7eccbece32d3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GetPatients",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/v1/patients",
-							"protocol": "https",
-							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
-							],
-							"path": [
-								"v1",
-								"patients"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GetPatientsReport",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "http://api.galenoapp.teamcloud.com.co:8081/v1/patients/report",
-							"protocol": "http",
-							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
-							],
-							"port": "8081",
-							"path": [
-								"v1",
-								"patients",
-								"report"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GetPatientById",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "http://api.galenoapp.teamcloud.com.co:8081/v1/patients/d15c20cc-ff96-489c-9283-bfc22cca2c52",
-							"protocol": "http",
-							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
-							],
-							"port": "8081",
-							"path": [
-								"v1",
-								"patients",
-								"d15c20cc-ff96-489c-9283-bfc22cca2c52"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "CreatePatient",
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {}
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"first_name\": \"paciente05\",\r\n    \"email\": \"paciente06@mn.com\",\r\n    \"last_name\": \"--\",\r\n    \"birth_date\": \"2012-05-28\",\r\n    \"classification\": \"ModerateDemented\",\r\n    \"data\": {\r\n        \"success\": true,\r\n        \"predictions\": [\r\n            {\r\n                \"category\": \"NonDemented\",\r\n                \"probability\": \"0.62452364\"\r\n            },\r\n            {\r\n                \"category\": \"VeryMildDemented\",\r\n                \"probability\": \"0.0010327292\"\r\n            },\r\n            {\r\n                \"category\": \"MildDemented\",\r\n                \"probability\": \"0.14199646\"\r\n            },\r\n            {\r\n                \"category\": \"ModerateDemented\",\r\n                \"probability\": \"0.23244716\"\r\n            }\r\n        ],\r\n        \"most_probable_category\": \"NonDemented\"\r\n    }\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/v1/patients",
-							"protocol": "https",
-							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
-							],
-							"path": [
-								"v1",
-								"patients"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PartialUpdatePatient",
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {}
-					},
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"first_name\": \"paciente06\",\r\n    \"email\": \"paciente06@mn.com\",\r\n    \"last_name\": \"...\",\r\n    \"birth_date\": \"2012-05-28\",\r\n    \"classification\": \"ModerateDemented\",\r\n    \"data\": {\r\n        \"success\": true,\r\n        \"predictions\": [\r\n            {\r\n                \"category\": \"NonDemented\",\r\n                \"probability\": \"0.62452364\"\r\n            },\r\n            {\r\n                \"category\": \"VeryMildDemented\",\r\n                \"probability\": \"0.0010327292\"\r\n            },\r\n            {\r\n                \"category\": \"MildDemented\",\r\n                \"probability\": \"0.14199646\"\r\n            },\r\n            {\r\n                \"category\": \"ModerateDemented\",\r\n                \"probability\": \"0.23244716\"\r\n            }\r\n        ],\r\n        \"most_probable_category\": \"NonDemented\"\r\n    }\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/v1/patients/022773cc-b680-4d74-9c86-7eccbece32d5",
-							"protocol": "https",
-							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
-							],
-							"path": [
-								"v1",
-								"patients",
-								"022773cc-b680-4d74-9c86-7eccbece32d5"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "UploadPicturePatient",
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {}
-					},
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "picture",
-									"type": "file",
-									"src": "/E:/apps/pablo/archive/Alzheimer_s Dataset/train/ModerateDemented/moderateDem1.jpg"
-								}
-							],
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/v1/patients/d15c20cc-ff96-489c-9283-bfc22cca2c52",
-							"protocol": "https",
-							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
-							],
-							"path": [
-								"v1",
-								"patients",
-								"d15c20cc-ff96-489c-9283-bfc22cca2c52"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "ConfirmDMOnPatient",
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {}
-					},
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"is_dm_confirmed\": false\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/v1/patients/022773cc-b680-4d74-9c86-7eccbece32d5",
-							"protocol": "https",
-							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
-							],
-							"path": [
-								"v1",
-								"patients",
-								"022773cc-b680-4d74-9c86-7eccbece32d5"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "API IA Models",
-			"item": [
-				{
-					"name": "Predict",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "file",
-									"type": "file",
-									"src": "/E:/apps/pablo/archive/Alzheimer_s Dataset/train/ModerateDemented/moderateDem12.jpg"
-								}
-							]
-						},
-						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/model/clasify",
-							"protocol": "https",
-							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
-							],
-							"path": [
-								"model",
-								"clasify"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "OAuth",
-			"item": [
-				{
-					"name": "LoginOauth",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Basic d2dESHEyeHdWWkVHbmU0WG5Pc2o1ZVI4MWlOZlZpeWVQWXIxRGE3UDp4eHpCc0hGcnV2YnlyT3BOQTM4YkVoc2l1ZzZ5bTJScjBWWlZSMVBrS2pZaEpDelJRZjJHM2hIVjk1c2ZIdmxmMGN6Zmp2RkY1VHM3MGduZ0NVbFliRlFsWlh3dkpiQVRITmRackk5enZ0bkZLS0dVcUI5SHpFWWpiVW1YaDk0Wg==",
-								"type": "text"
-							},
-							{
-								"key": "Cache-Control",
-								"value": "no-cache",
-								"type": "text"
-							},
-							{
-								"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman.",
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "grant_type",
-									"value": "client_credentials",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/oauth/token/",
-							"protocol": "https",
-							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
-							],
-							"path": [
-								"oauth",
-								"token",
-								""
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
 		{
 			"name": "Auth",
 			"item": [
@@ -457,7 +22,7 @@
 									"/* set the token to environment */\r",
 									"pm.environment.set(\"accessToken\", data.access);\r",
 									"pm.environment.set(\"refreshToken\", data.refresh);\r",
-									"console.log(pm.environment);"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -475,29 +40,11 @@
 								"key": "Cache-Control",
 								"value": "no-cache",
 								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/vnd.api+json",
-								"type": "text",
-								"disabled": true
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text",
-								"disabled": true
-							},
-							{
-								"key": "X-CSRFToken",
-								"value": "u7NhjPJIB4K47WwTtoP88KrY2T2hEPKAi1OawFE3sNBC4g75fgs2UYOzlqPw6YA7",
-								"type": "text",
-								"disabled": true
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"amilest7777@gmail.com\",\r\n    \"password\": \"amilest7777\"\r\n}",
+							"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -505,20 +52,16 @@
 							}
 						},
 						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/v1/auth/jwt/create",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/v1/auth/jwt/create/",
 							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"v1",
 								"auth",
 								"jwt",
-								"create"
+								"create",
+								""
 							]
 						}
 					},
@@ -555,18 +98,6 @@
 								"key": "Cache-Control",
 								"value": "no-cache",
 								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text",
-								"disabled": true
-							},
-							{
-								"key": "X-CSRFToken",
-								"value": "u7NhjPJIB4K47WwTtoP88KrY2T2hEPKAi1OawFE3sNBC4g75fgs2UYOzlqPw6YA7",
-								"type": "text",
-								"disabled": true
 							}
 						],
 						"body": {
@@ -579,14 +110,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/v1/auth/jwt/refresh",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/v1/auth/jwt/refresh",
 							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"v1",
@@ -607,27 +133,16 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}",
-								"type": "text",
-								"disabled": true
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"ramejiafernandez@gmail.com\"\r\n}"
+							"raw": "{\r\n    \"email\": \"{{email}}\"\r\n}"
 						},
 						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/v1/auth/users/reset_password/",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/v1/auth/users/reset_password/",
 							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"v1",
@@ -658,17 +173,12 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"new_email\": \"amilest7777@gmail.com\",\r\n    \"re_new_email\": \"amilest7777@gmail.com\",\r\n    \"current_password\": \"amilest7777\"\r\n}"
+							"raw": "{\r\n    \"new_email\": \"{{email}}\",\r\n    \"re_new_email\": \"{{email}}\",\r\n    \"current_password\": \"{{password}}\"\r\n}"
 						},
 						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/v1/auth/users/set_email/",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/v1/auth/users/set_email/",
 							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"v1",
@@ -690,27 +200,16 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}",
-								"type": "text",
-								"disabled": true
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"uid\": \"NTI\",\r\n    \"token\": \"aniutd-5ce0dc16896f6691cb6b07af22d855e8\",\r\n    \"new_password\": \"amilest7777\",\r\n    \"re_new_password\":\"amilest7777\"\r\n}"
+							"raw": "{\r\n    \"uid\": \"{{uid}}\",\r\n    \"token\": \"{{token}}\",\r\n    \"new_password\": \"{{password}}\",\r\n    \"re_new_password\":\"{{password}}\"\r\n}"
 						},
 						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/v1/auth/users/reset_password_confirm/",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/v1/auth/users/reset_password_confirm/",
 							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"v1",
@@ -737,27 +236,16 @@
 								"key": "Authorization",
 								"value": "Bearer {{accessToken}}",
 								"type": "text"
-							},
-							{
-								"key": "X-CSRFToken",
-								"value": "u7NhjPJIB4K47WwTtoP88KrY2T2hEPKAi1OawFE3sNBC4g75fgs2UYOzlqPw6YA7",
-								"type": "text",
-								"disabled": true
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"current_password\": \"TeamCloud01*\"\r\n}"
+							"raw": "{\r\n    \"current_password\": \"{{password}}\"\r\n}"
 						},
 						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/v1/auth/users/me/",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/v1/auth/users/me/",
 							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"v1",
@@ -776,6 +264,7 @@
 						"method": "PATCH",
 						"header": [
 							{
+								"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman.",
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
@@ -784,12 +273,6 @@
 								"key": "Authorization",
 								"value": "Bearer {{accessToken}}",
 								"type": "text"
-							},
-							{
-								"key": "X-CSRFToken",
-								"value": "u7NhjPJIB4K47WwTtoP88KrY2T2hEPKAi1OawFE3sNBC4g75fgs2UYOzlqPw6YA7",
-								"type": "text",
-								"disabled": true
 							}
 						],
 						"body": {
@@ -797,44 +280,22 @@
 							"formdata": [
 								{
 									"key": "avatar",
+									"description": "Profile image",
 									"type": "file",
-									"src": "/C:/Users/andres.mejia/Pictures/profile_small-min.png"
+									"src": []
 								},
 								{
 									"key": "email",
-									"value": "ramejiafernandez@gmail.com",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "first_name",
-									"value": "Andrés 0001",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "last_name",
-									"value": "Mejia",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "role",
-									"value": "",
-									"type": "text",
-									"disabled": true
+									"value": "{{email}}",
+									"description": "Email of user",
+									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/v1/auth/users/me/",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/v1/auth/users/me/",
 							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"v1",
@@ -868,36 +329,16 @@
 							"formdata": [
 								{
 									"key": "avatar",
+									"description": "Profile image",
 									"type": "file",
-									"src": "/C:/Users/andres.mejia/Pictures/default.png"
-								},
-								{
-									"key": "email",
-									"value": "ramejiafernandez@gmail.com",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "first_name",
-									"value": "Andrés 01--",
-									"type": "text"
-								},
-								{
-									"key": "last_name",
-									"value": "Mejia--",
-									"type": "text"
+									"src": []
 								}
 							]
 						},
 						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/v1/auth/users/me/",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/v1/auth/users/me/",
 							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"v1",
@@ -928,17 +369,12 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"new_password\": \"amilest7777\",\r\n    \"re_new_password\": \"amilest7777\",\r\n    \"current_password\": \"amilest7777\"\r\n}"
+							"raw": "{\r\n    \"new_password\": \"{{password}}\",\r\n    \"re_new_password\": \"{{password}}\",\r\n    \"current_password\": \"{{password}}\"\r\n}"
 						},
 						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/v1/auth/users/set_password/",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/v1/auth/users/set_password/",
 							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"v1",
@@ -968,20 +404,66 @@
 							}
 						],
 						"url": {
-							"raw": "http://api.galenoapp.teamcloud.com.co/v1/auth/users/me",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/v1/auth/users/me",
 							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"v1",
 								"auth",
 								"users",
 								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "OAuth",
+			"item": [
+				{
+					"name": "LoginOauth",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic {{accessToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache",
+								"type": "text"
+							},
+							{
+								"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman.",
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/oauth/token/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"oauth",
+								"token",
+								""
 							]
 						}
 					},
@@ -1004,16 +486,11 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}",
-								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"amilest777711@gmail.com\",\r\n    \"first_name\": \"Andres Mejia\",\r\n    \"password\":\"TeamCloud01*\",\r\n    \"re_password\":\"TeamCloud01*\",\r\n    \"area\":\"P\",\r\n    \"card_id\":\"1000012\",\r\n    \"is_agreements\": true\r\n}",
+							"raw": "{\r\n    \"email\": \"\",\r\n    \"first_name\": \"\",\r\n    \"password\":\"\",\r\n    \"re_password\":\"\",\r\n    \"area\":\"\",\r\n    \"card_id\":\"\",\r\n    \"is_agreements\": false\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1021,14 +498,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/v1/auth/users/",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/v1/auth/users/",
 							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"v1",
@@ -1052,17 +524,11 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}",
-								"type": "text",
-								"disabled": true
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"uid\": \"Mjk\",\r\n    \"token\": \"angm83-d6bdaa578f238d1cc369371b197d50bd\"    \r\n}",
+							"raw": "{\r\n    \"uid\": \"{{uid}}\",\r\n    \"token\": \"{{token}}\"    \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1070,14 +536,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/v1/auth/users/activation/",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/v1/auth/users/activation/",
 							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"v1",
@@ -1102,17 +563,11 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}",
-								"type": "text",
-								"disabled": true
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"andres.mejia@pfstech.es\"\r\n}",
+							"raw": "{\r\n    \"email\": \"{{email}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1120,14 +575,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://api.galenoapp.teamcloud.com.co/v1/auth/users/resend_activation/",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/v1/auth/users/resend_activation/",
 							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"v1",
@@ -1157,14 +607,9 @@
 							}
 						],
 						"url": {
-							"raw": "http://api.galenoapp.teamcloud.com.co/v1/auth/users/",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/v1/auth/users/",
 							"host": [
-								"api",
-								"galenoapp",
-								"teamcloud",
-								"com",
-								"co"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"v1",
@@ -1177,6 +622,378 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "API IA Models",
+			"item": [
+				{
+					"name": "Predict",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"description": "Image to evaluate",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/model/clasify",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"model",
+								"clasify"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Patients",
+			"item": [
+				{
+					"name": "DeletePatient",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/v1/patients/{{patient_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"patients",
+								"{{patient_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetPatients",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/v1/patients",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"patients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetPatientsReport",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/v1/patients/report",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"patients",
+								"report"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetPatientById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/v1/patients/{{patient_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"patients",
+								"{{patient_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreatePatient",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"\",\r\n    \"email\": \"\",\r\n    \"last_name\": \"\",\r\n    \"birth_date\": \"\",\r\n    \"classification\": \"ModerateDemented\",\r\n    \"data\": {\r\n        \"success\": false,\r\n        \"predictions\": [],\r\n        \"most_probable_category\": \"NonDemented\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/v1/patients",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"patients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PartialUpdatePatient",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"\",\r\n    \"email\": \"\",\r\n    \"last_name\": \"\",\r\n    \"birth_date\": \"\",\r\n    \"classification\": \"\",\r\n    \"data\": {\r\n        \"success\": false,\r\n        \"predictions\": [],\r\n        \"most_probable_category\": \"NonDemented\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/v1/patients/{{patient_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"patients",
+								"{{patient_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UploadPicturePatient",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "picture",
+									"description": "image of patient",
+									"type": "file",
+									"src": []
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/v1/patients/{{patient_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"patients",
+								"{{patient_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ConfirmDMOnPatient",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"is_dm_confirmed\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/v1/patients/{{patient_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"patients",
+								"{{patient_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://api.galenoapp.teamcloud.com.co"
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "password",
+			"value": ""
 		}
 	]
 }
