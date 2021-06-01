@@ -85,8 +85,8 @@ export default {
   data() {
     return {
       title: "Log in",
-      email: "amilest7777@gmail.com",
-      password: "amilest7777",
+      email: "",
+      password: "",
     };
   },
   computed: {

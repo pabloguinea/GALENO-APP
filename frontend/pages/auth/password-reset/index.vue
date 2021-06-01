@@ -62,7 +62,7 @@ export default {
     return {
       title: "Log in",
       form: {
-        email: "amilest7777@gmail.com",
+        email: "",
       },
     };
   },

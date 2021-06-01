@@ -121,13 +121,13 @@ export default {
     return {
       title: "Log in",
       form: {
-        email: "amilest0001@gmail.com",
-        first_name: "prueba01",
-        re_password: "TT00001*",
-        password: "TT00001*",
-        area: "P",
-        card_id: "12220",
-        is_agreements: true,
+        email: "",
+        first_name: "",
+        re_password: "*",
+        password: "*",
+        area: "",
+        card_id: "",
+        is_agreements: false,
       },
     };
   },

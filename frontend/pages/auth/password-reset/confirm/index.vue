@@ -96,8 +96,8 @@ export default {
     return {
       title: "Log in",
       form:{
-        new_password: "amilest7777",
-        re_new_password: "amilest7777",
+        new_password: "",
+        re_new_password: "",
         uid: '',
         token: ''
       }
