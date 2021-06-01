@@ -20,7 +20,7 @@
             maxFileSize="5MB"
             :imageEditAllowEdit="true"
             :required="true"
-            name="file"
+            name="avatar"
             ref="pond"
             label-idle="Drop your photo here..."
             v-bind:allow-multiple="false"
