@@ -15,9 +15,11 @@
     <div class="row margin-tb-45px full-width">
       <div class="col-md-4">
         <div class="padding-15px background-white">
+          
           <a href="#" class="d-block margin-bottom-10px"
             ><img :src='require("~/assets/img/profile.jpg")' alt=""
           /></a>
+
           <a
             href="#"
             class="btn btn-sm text-white background-main-color btn-block"
@@ -28,21 +30,21 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-6 margin-bottom-20px">
-            <label><i class="far fa-user margin-right-10px"></i>Name</label>
+            <label><i class="far fa-user margin-right-10px"></i>First Name</label>
             <input
               type="text"
               class="form-control form-control-sm"
-              placeholder="Pablo Guinea Benito"
+              placeholder=""
+              v-model="user.attributes.first_name"
             />
           </div>
           <div class="col-md-6 margin-bottom-20px">
-            <label
-              ><i class="fas fa-lock margin-right-10px"></i> Username</label
-            >
+            <label><i class="far fa-user margin-right-10px"></i>Last Name</label>
             <input
               type="text"
               class="form-control form-control-sm"
-              placeholder="PG1HM"
+              placeholder=""
+              v-model="user.attributes.last_name"
             />
           </div>
           <div class="col-md-6 margin-bottom-20px">
@@ -52,7 +54,8 @@
             <input
               type="text"
               class="form-control form-control-sm"
-              placeholder="87234832"
+              v-model="user.attributes.card_id"
+              placeholder=""
             />
           </div>
           <div class="col-md-6 margin-bottom-20px">
@@ -63,7 +66,8 @@
             <input
               type="text"
               class="form-control form-control-sm"
-              placeholder="pablo.guinea@hmhospitales.es"
+              v-model="user.attributes.email"
+              placeholder=""
             />
           </div>
           <div class="col-md-6">
@@ -83,6 +87,9 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
+
 export default {
   layout: "private",
   transitions: "page",
@@ -90,6 +97,13 @@ export default {
   methods: {
     initialize() {},
   },
+  
+  computed: {
+    ...mapState({
+      user: (state) => state.auth.user,
+    }),
+  },
+
   head() {
     return {
       title: `${this.title} | Medical Health Services`,

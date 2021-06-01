@@ -162,7 +162,7 @@ export default {
           default:
             let index = this.listTypes.indexOf(report.attributes.indicator);
             if (index > -1) {
-              this.chartSettings.chartData[index][1] = report.attributes.count;
+              this.chartSettings.chartData[index + 1][1] = report.attributes.count;
             }
             break;
         }
