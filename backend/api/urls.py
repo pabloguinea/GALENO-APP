@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.urls import path, include
-from django.conf.urls import url
+from django.conf.urls import url, patterns
 from django.views.generic import TemplateView
 from rest_framework import routers, serializers, viewsets
 from rest_framework import permissions
@@ -45,7 +45,7 @@ schema_view = get_schema_view(
             generator_class=SchemaGenerator,
         )
 
-urlpatterns = [
+base_urlpatterns = [
     # admin urls
     path('admin/', admin.site.urls),
     
@@ -76,4 +76,9 @@ urlpatterns = [
 ]
 
 # add url media and static content
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+base_urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns = patterns('',
+    '^', include(base_urlpatterns), # iff you wish to maintain the un-prefixed URL's too
+    '^api/backend/', include(base_urlpatterns),
+)
