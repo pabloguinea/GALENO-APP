@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.urls import path, include
-from django.conf.urls import url, patterns
+from django.conf.urls import url
 from django.views.generic import TemplateView
 from rest_framework import routers, serializers, viewsets
 from rest_framework import permissions
@@ -78,7 +78,7 @@ base_urlpatterns = [
 # add url media and static content
 base_urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-urlpatterns = patterns('',
-    '^', include(base_urlpatterns), # iff you wish to maintain the un-prefixed URL's too
-    '^api/backend/', include(base_urlpatterns),
-)
+urlpatterns = [
+    url(r'^', include(base_urlpatterns)),
+    url(r'^api/backend/', include(base_urlpatterns)),
+]

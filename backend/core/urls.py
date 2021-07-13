@@ -12,7 +12,7 @@ base_urlpatterns = [
 ]
 
 
-urlpatterns = patterns('',
-    '^', include(base_urlpatterns), # iff you wish to maintain the un-prefixed URL's too
-    '^api/backend/', include(base_urlpatterns),
-)
+urlpatterns = [
+    url(r'^', include(base_urlpatterns)),
+    url(r'^api/backend/', include(base_urlpatterns)),
+]
