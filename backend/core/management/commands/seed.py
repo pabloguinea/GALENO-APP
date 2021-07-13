@@ -20,14 +20,15 @@ class Command(BaseCommand):
         
         # create super user 
         DJANGO_DB_NAME = os.environ.get('SQL_DATABASE')
-        DJANGO_SU_NAME = os.environ.get('DJANGO_SU_NAME')
-        DJANGO_SU_EMAIL = os.environ.get('DJANGO_SU_EMAIL')
-        DJANGO_SU_PASSWORD = os.environ.get('DJANGO_SU_PASSWORD')
+        DJANGO_SU_NAME = os.environ.get('DJANGO_SUPERUSER_FIRST_NAME')
+        DJANGO_SU_EMAIL = os.environ.get('DJANGO_SUPERUSER_EMAIL')
+        DJANGO_SU_PASSWORD = os.environ.get('DJANGO_SUPERUSER_PASSWORD')
 
-        superuser = User.objects.create_staffuser(
-            username=DJANGO_SU_NAME,
-            first_name=DJANGO_SU_NAME,
+        superuser = User.objects.create_superuser(
             email=DJANGO_SU_EMAIL,
+            first_name=DJANGO_SU_NAME,
+            last_name=None,
+            username=DJANGO_SU_EMAIL,
             password=DJANGO_SU_PASSWORD)
 
         superuser.save()

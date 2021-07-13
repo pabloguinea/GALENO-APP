@@ -3,8 +3,6 @@ from django.contrib.auth.models import BaseUserManager
 class UserManager(BaseUserManager):
     #def create_user(self, email, first_name, area=None, card_id = None, last_name=None, password=None):
     def create_user(self, **validated_data):
-        print("validatedata in creation of user:::::::::::")
-        print(validated_data)
         
         email = validated_data["email"]
         first_name = validated_data["first_name"]
@@ -56,7 +54,10 @@ class UserManager(BaseUserManager):
         user.last_name = last_name
         user.set_password(password)  # change password to hash
         user.is_admin = True
-        user.is_staff = False
+        user.is_staff = True
+        user.role = "admin"
+        user.area = None
+        user.is_active=True
         user.save(using=self._db)
         return user
     
@@ -80,7 +81,10 @@ class UserManager(BaseUserManager):
         user.first_name = first_name
         user.last_name = last_name
         user.set_password(password)  # change password to hash
-        user.is_admin = False
+        user.is_admin = True
         user.is_staff = True
+        user.role = "admin"
+        user.area = None
+        user.is_active=True
         user.save(using=self._db)
         return user

@@ -1,10 +1,10 @@
 # Instala la aplicación en un entorno local (los servicios serán accedidos a traves de HTTP)
 install:
-	sudo ./app.sh
+	sudo sh app.sh
 
 # Instala la aplicación en un entorno productivo (los servicios serán accedidos a traves de HTTPS)
 install-ssl:
-	sudo ./app-ssl.sh
+	sudo sh app-ssl.sh
 
 # Compila todas las imágenes de cada servicio para la versión local
 build:
