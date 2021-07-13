@@ -507,7 +507,7 @@ export default {
       currentPatient: null,
       uploaderSettings: {
         server: {
-          url: "https://api.galenoapp.teamcloud.com.co/model/clasify",
+          url: `${process.env.modelApiUrl}/clasify`, 
           process: {
             onload: (response) => this.onUpload(response),
           },

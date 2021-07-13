@@ -175,7 +175,7 @@ export default {
       }
       return {
         server: {
-          url: "https://api.galenoapp.teamcloud.com.co/v1/auth/users/me/",
+          url: `${process.env.apiUrl}/auth/users/me/` ,
           process: {
             onload: (response) => this.onUpload(response),
             method: "patch",

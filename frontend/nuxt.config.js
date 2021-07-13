@@ -132,8 +132,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'https://api.galenoapp.teamcloud.com.co/v1',
-    //baseURL:"http://3.20.87.241:8081/v1",
+    baseURL: process.env.API_URL, 
     https:true,
   },
 
@@ -175,5 +174,15 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     extractCSS: true,
+  },
+
+  /*
+   ** Build configuration
+   ** See https://nuxtjs.org/api/configuration-build/
+   */
+  env: {
+    apiUrl: process.env.API_URL,
+    appUrl: process.env.APP_URL,
+    modelApiUrl: process.env.API_MODEL_URL,
   }
 }
