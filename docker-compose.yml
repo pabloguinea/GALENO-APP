@@ -83,9 +83,9 @@ services:
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./backend/logs:/app/logs
-      - dist_volume:/app/html:ro
       - static_volume:/backend/static:ro
       - media_volume:/backend/media:ro
+      - dist_volume:/app/html:ro
       #- ./nginx/ssl/data/certbot/conf:/etc/letsencrypt
       #- ./nginx/ssl/data/certbot/www:/var/www/certbot 
     depends_on:
