@@ -1,5 +1,5 @@
 from django.urls import path, include
-from django.conf.urls import url, patterns
+from django.conf.urls import url
 from .views import PatientViewSet, PatientStatsListView 
 #from .views import UserCustomViewSet, ChangePasswordView 
 
