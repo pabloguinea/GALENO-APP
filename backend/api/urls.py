@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.urls import path, include
-from django.conf.urls import url
+from django.urls import path, re_path
 from django.views.generic import TemplateView
 from rest_framework import routers, serializers, viewsets
 from rest_framework import permissions
@@ -60,12 +60,12 @@ base_urlpatterns = [
     #url(r'^v1/account/password/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     
     #oauth 2.0 server
-    path('^v1/oauth/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    re_path(r'^v1/oauth/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     
     #jwt 
     # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/getting_started.html#usage
-    url(r'^v1/auth/', include('djoser.urls')),
-    url(r'^v1/auth/', include('djoser.urls.jwt')),
+    re_path(r'^v1/auth/', include('djoser.urls')),
+    re_path(r'^v1/auth/', include('djoser.urls.jwt')),
     #url(r'^v1/auth/', include('djoser.urls.authtoken')),
 
     #openapi 3.0 + documentation
@@ -77,6 +77,11 @@ base_urlpatterns = [
 
 # add url media and static content
 base_urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns = [
+    re_path(r'^', include(base_urlpatterns)),
+    re_path(r'^api/backend/', include(base_urlpatterns)),
+]
 
 urlpatterns = [
     url(r'^', include(base_urlpatterns)),
